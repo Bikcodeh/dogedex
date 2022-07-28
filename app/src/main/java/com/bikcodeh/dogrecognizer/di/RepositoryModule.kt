@@ -1,5 +1,6 @@
 package com.bikcodeh.dogrecognizer.di
 
+import com.bikcodeh.dogrecognizer.data.remote.DogApiService
 import com.bikcodeh.dogrecognizer.data.repository.DogRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -13,5 +14,6 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun providesDogRepository(): DogRepositoryImpl = DogRepositoryImpl()
+    fun providesDogRepository(dogApiService: DogApiService): DogRepositoryImpl =
+        DogRepositoryImpl(dogApiService)
 }
