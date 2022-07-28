@@ -12,6 +12,7 @@
 /captures
 .externalNativeBuild
 .cxx
+misc.xml
 
 #built application files
 *.apk
