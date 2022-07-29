@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/drawable/red_circle.xml" value="0.352" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/activity_dog_detail.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/activity_dog_list.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/activity_main.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/item_dog.xml" value="0.28675213675213673" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/menu/menu_main.xml" value="0.35052083333333334" />
       </map>
     </option>
   </component>

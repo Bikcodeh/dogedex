@@ -18,6 +18,9 @@
         android:theme="@style/Theme.DogRecognizer"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.dogdetail.DogDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.doglist.DogListActivity"
             android:exported="true">
             <intent-filter>
