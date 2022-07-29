@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bikcodeh.dogrecognizer.databinding.ItemDogBinding
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 
-class DogListAdapter : ListAdapter<Dog, DogListAdapter.DogViewHolder>(DiffCallback()) {
+class DogListAdapter(private val onItemClick: (Dog) -> Unit) : ListAdapter<Dog, DogListAdapter.DogViewHolder>(DiffCallback()) {
 
     private class DiffCallback : DiffUtil.ItemCallback<Dog>() {
         override fun areItemsTheSame(oldItem: Dog, newItem: Dog): Boolean {
@@ -25,6 +25,9 @@ class DogListAdapter : ListAdapter<Dog, DogListAdapter.DogViewHolder>(DiffCallba
         RecyclerView.ViewHolder(binding.root) {
         fun bind(dog: Dog) {
             binding.dogNameTv.text = dog.name
+            binding.dogNameTv.setOnClickListener {
+                onItemClick(dog)
+            }
         }
     }
 
