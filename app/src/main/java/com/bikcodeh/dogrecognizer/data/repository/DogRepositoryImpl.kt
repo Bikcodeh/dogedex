@@ -13,7 +13,7 @@ class DogRepositoryImpl @Inject constructor(
     suspend fun downloadDogs(): List<Dog> {
         return withContext(Dispatchers.IO) {
             val response = dogApiService.getAllDogs()
-            response.data.dogs
+            response.data.dogs.map { it.toDomain() }
         }
     }
 }
