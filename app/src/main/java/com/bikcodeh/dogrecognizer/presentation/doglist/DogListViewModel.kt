@@ -1,11 +1,13 @@
 package com.bikcodeh.dogrecognizer.presentation.doglist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.data.repository.DogRepositoryImpl
 import com.bikcodeh.dogrecognizer.domain.model.Dog
+import com.bikcodeh.dogrecognizer.domain.model.common.fold
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +27,18 @@ class DogListViewModel @Inject constructor(
 
     private fun downloadDogs() {
         viewModelScope.launch {
-            _dogsLivedata.value = dogRepositoryImpl.downloadDogs()
+            dogRepositoryImpl.downloadDogs()
+                .fold(
+                    onSuccess = {
+                        _dogsLivedata.value = it
+                    },
+                    onError = { code, message ->
+                        Log.d("ERROR", message.toString())
+                    },
+                    onException = {
+                        Log.d("ERROR", it.message.toString())
+                    }
+                )
         }
     }
 }
