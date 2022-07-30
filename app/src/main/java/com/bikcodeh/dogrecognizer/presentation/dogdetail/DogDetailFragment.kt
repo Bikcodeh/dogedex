@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +31,15 @@ class DogDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(requireContext(), args.itemDog.name.uppercase(), Toast.LENGTH_SHORT).show()
+        with(binding) {
+            dogIndex.text = "#${args.itemDog.index}"
+            lifeExpectancy.text = "${args.itemDog.lifeExpectancy} years"
+            binding.dog = args.itemDog
+            dogImage.load(args.itemDog.imageUrl)
+            closeButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     override fun onDestroyView() {
