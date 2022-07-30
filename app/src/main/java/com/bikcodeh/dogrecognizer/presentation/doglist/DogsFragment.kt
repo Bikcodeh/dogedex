@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogsBinding
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 import dagger.hilt.android.AndroidEntryPoint
+
+private const val GRID_SPAN_COUNT = 3
 
 @AndroidEntryPoint
 class DogsFragment : Fragment() {
@@ -48,7 +51,7 @@ class DogsFragment : Fragment() {
 
     private fun setUpViews() {
         binding.dogListRv.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = GridLayoutManager(requireContext(), GRID_SPAN_COUNT)
             adapter = dogAdapter
         }
     }

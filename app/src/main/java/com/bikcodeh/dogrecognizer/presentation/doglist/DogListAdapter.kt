@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bikcodeh.dogrecognizer.databinding.ItemDogBinding
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 
@@ -24,10 +25,10 @@ class DogListAdapter(private val onItemClick: (Dog) -> Unit) : ListAdapter<Dog, 
     inner class DogViewHolder(private val binding: ItemDogBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(dog: Dog) {
-            binding.dogNameTv.text = dog.name
-            binding.dogNameTv.setOnClickListener {
+            binding.dogListItemLayout.setOnClickListener {
                 onItemClick(dog)
             }
+            binding.dogImage.load(dog.imageUrl)
         }
     }
 
