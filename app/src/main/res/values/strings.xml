@@ -14,4 +14,6 @@
     <string name="register">Sign up</string>
     <string name="confirm_password">Confirm password</string>
     <string name="sign_up">Sign up</string>
+    <string name="login_title">Login</string>
+    <string name="signup_title">Sign up</string>
 </resources>
