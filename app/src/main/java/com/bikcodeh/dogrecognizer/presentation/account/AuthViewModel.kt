@@ -180,6 +180,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun logIn(email: String, password: String){
+        _authUiState.update { state -> state.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.signIn(email, password)
                 .fold(
