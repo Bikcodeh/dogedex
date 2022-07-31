@@ -28,7 +28,7 @@ class SignUpFragment : Fragment() {
     private val binding: FragmentSignUpBinding
         get() = _binding!!
 
-    private val signUpViewModel by viewModels<AuthViewModel>()
+    private val authViewModel by viewModels<AuthViewModel>()
     private var progressDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,15 +69,15 @@ class SignUpFragment : Fragment() {
     private fun setUpCollectors() {
         observeFlows { scope ->
             scope.launch {
-                signUpViewModel.formUiState.collect(::handleFormState)
+                authViewModel.formUiState.collect(::handleFormState)
             }
             scope.launch {
-                signUpViewModel.confirmPassword.collect { enable ->
+                authViewModel.confirmPassword.collect { enable ->
                     binding.confirmPasswordInput.isEnabled = enable
                 }
             }
             scope.launch {
-                signUpViewModel.authUiState.collect { state ->
+                authViewModel.authUiState.collect { state ->
                     if (state.isLoading) {
                         progressDialog?.show()
                     } else {
@@ -120,7 +120,7 @@ class SignUpFragment : Fragment() {
     private fun setUpListeners() {
         with(binding) {
             signUpButton.setOnClickListener {
-                signUpViewModel.signUp(
+                authViewModel.signUp(
                     binding.emailEdit.text.toString(),
                     binding.passwordEdit.text.toString(),
                     binding.confirmPasswordEdit.text.toString()
@@ -128,15 +128,15 @@ class SignUpFragment : Fragment() {
             }
 
             emailEdit.onTextChange {
-                signUpViewModel.validateEmail(it)
+                authViewModel.validateEmail(it)
             }
 
             passwordEdit.onTextChange {
-                signUpViewModel.validatePassword(it)
+                authViewModel.validatePassword(it)
             }
 
             confirmPasswordEdit.onTextChange {
-                signUpViewModel.validateConfirmPassword(passwordEdit.text.toString(), it)
+                authViewModel.validateConfirmPassword(passwordEdit.text.toString(), it)
             }
         }
     }

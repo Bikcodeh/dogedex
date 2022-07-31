@@ -29,7 +29,7 @@ class LoginPageFragment : Fragment() {
         get() = _binding!!
 
     private var progressDialog: AlertDialog? = null
-    private val signUpViewModel: AuthViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,11 +55,11 @@ class LoginPageFragment : Fragment() {
     private fun setUpCollectors() {
         observeFlows { scope ->
             scope.launch {
-                signUpViewModel.formUiState.collect(::handleForm)
+                authViewModel.formUiState.collect(::handleForm)
             }
 
             scope.launch {
-                signUpViewModel.authUiState.collect { state ->
+                authViewModel.authUiState.collect { state ->
                     if (state.isLoading) {
                         progressDialog?.show()
                     } else {
@@ -99,18 +99,18 @@ class LoginPageFragment : Fragment() {
 
         with (binding) {
             loginButton.setOnClickListener {
-                signUpViewModel.logIn(emailEdit.text.toString(), passwordEdit.text.toString())
+                authViewModel.logIn(emailEdit.text.toString(), passwordEdit.text.toString())
             }
             loginRegisterButton.setOnClickListener {
                 findNavController().navigate(R.id.action_loginPageFragment_to_signUpFragment)
             }
 
             emailEdit.onTextChange {
-                signUpViewModel.validateEmail(it)
+                authViewModel.validateEmail(it)
             }
 
             passwordEdit.onTextChange {
-                signUpViewModel.validatePassword(it)
+                authViewModel.validatePassword(it)
             }
         }
     }
