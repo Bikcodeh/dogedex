@@ -12,6 +12,7 @@ import com.bikcodeh.dogrecognizer.domain.common.Error
 import com.bikcodeh.dogrecognizer.domain.common.fold
 import com.bikcodeh.dogrecognizer.domain.common.toError
 import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
+import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val dataStoreOperations: DataStoreOperations
 ) : ViewModel() {
 
     private val _formUIState: MutableStateFlow<FormState> = MutableStateFlow(FormState())
@@ -123,6 +125,7 @@ class AuthViewModel @Inject constructor(
             authRepository.signUp(email, password, confirmPassword)
                 .fold(
                     onSuccess = {
+                        dataStoreOperations.saveUser(it.id, it.email, it.authenticationToken)
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
@@ -132,7 +135,7 @@ class AuthViewModel @Inject constructor(
                             )
                         }
                     },
-                    onError = { code, message ->
+                    onError = { _, message ->
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
@@ -179,12 +182,20 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun logIn(email: String, password: String){
-        _authUiState.update { state -> state.copy(isLoading = true) }
+    fun logIn(email: String, password: String) {
+        _authUiState.update { state ->
+            state.copy(
+                isLoading = true,
+                user = null,
+                errorMessageId = null,
+                errorMessage = null
+            )
+        }
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.signIn(email, password)
                 .fold(
                     onSuccess = {
+                        dataStoreOperations.saveUser(it.id, it.email, it.authenticationToken)
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
@@ -194,7 +205,7 @@ class AuthViewModel @Inject constructor(
                             )
                         }
                     },
-                    onError = { code, message ->
+                    onError = { _, message ->
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,

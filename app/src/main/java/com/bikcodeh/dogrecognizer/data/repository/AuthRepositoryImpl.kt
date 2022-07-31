@@ -56,7 +56,7 @@ class AuthRepositoryImpl @Inject constructor(
 
         return response.fold(
             onSuccess = {
-                if (it.isSuccess) {
+                if (!it.isSuccess) {
                     Result.Success(it.data.user.toDomain())
                 } else {
                     Result.Exception(

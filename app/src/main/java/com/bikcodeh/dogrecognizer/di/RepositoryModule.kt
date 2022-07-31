@@ -1,8 +1,10 @@
 package com.bikcodeh.dogrecognizer.di
 
+import com.bikcodeh.dogrecognizer.data.local.preferences.DataStoreOperationsImpl
 import com.bikcodeh.dogrecognizer.data.repository.AuthRepositoryImpl
 import com.bikcodeh.dogrecognizer.data.repository.DogRepositoryImpl
 import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
+import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,8 @@ abstract class RepositoryModule {
     @Binds
     @ViewModelScoped
     abstract fun providesAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    @ViewModelScoped
+    abstract fun providesDataStoreOperations(dataStoreOperationsImpl: DataStoreOperationsImpl): DataStoreOperations
 }

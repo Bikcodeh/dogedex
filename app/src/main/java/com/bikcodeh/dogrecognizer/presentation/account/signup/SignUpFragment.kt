@@ -92,6 +92,7 @@ class SignUpFragment : Fragment() {
                         Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show()
                     }
                     state.user?.let {
+                        progressDialog?.dismiss()
                         startActivity(Intent(activity, MainActivity::class.java))
                         activity?.finish()
                     }

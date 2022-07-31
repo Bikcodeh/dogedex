@@ -32,7 +32,7 @@ class DogListViewModel @Inject constructor(
                     onSuccess = {
                         _dogsLivedata.value = it
                     },
-                    onError = { code, message ->
+                    onError = { _, message ->
                         Log.d("ERROR", message.toString())
                     },
                     onException = {
