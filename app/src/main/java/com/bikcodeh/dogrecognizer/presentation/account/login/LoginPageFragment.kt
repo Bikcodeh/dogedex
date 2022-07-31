@@ -97,7 +97,7 @@ class LoginPageFragment : Fragment() {
 
     private fun setUpListeners() {
 
-        with (binding) {
+        with(binding) {
             loginButton.setOnClickListener {
                 authViewModel.logIn(emailEdit.text.toString(), passwordEdit.text.toString())
             }
@@ -106,11 +106,13 @@ class LoginPageFragment : Fragment() {
             }
 
             emailEdit.onTextChange {
-                authViewModel.validateEmail(it)
+                if (emailEdit.hasFocus())
+                    authViewModel.validateEmail(it)
             }
 
             passwordEdit.onTextChange {
-                authViewModel.validatePassword(it)
+                if (passwordEdit.hasFocus())
+                    authViewModel.validatePassword(it)
             }
         }
     }
