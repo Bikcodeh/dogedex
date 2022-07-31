@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bikcodeh.dogrecognizer.MainActivity
 import com.bikcodeh.dogrecognizer.databinding.FragmentSignUpBinding
+import com.bikcodeh.dogrecognizer.presentation.account.AuthViewModel
 import com.bikcodeh.dogrecognizer.presentation.util.extension.createProgressDialog
 import com.bikcodeh.dogrecognizer.presentation.util.extension.getStringOrNull
 import com.bikcodeh.dogrecognizer.presentation.util.extension.observeFlows
@@ -27,7 +28,7 @@ class SignUpFragment : Fragment() {
     private val binding: FragmentSignUpBinding
         get() = _binding!!
 
-    private val signUpViewModel by viewModels<SignUpViewModel>()
+    private val signUpViewModel by viewModels<AuthViewModel>()
     private var progressDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,15 +57,16 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progressDialog = context?.createProgressDialog()
         setUpListeners()
-        setUpObservers()
+        setUpCollectors()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        progressDialog = null
     }
 
-    private fun setUpObservers() {
+    private fun setUpCollectors() {
         observeFlows { scope ->
             scope.launch {
                 signUpViewModel.formUiState.collect(::handleFormState)
@@ -75,7 +77,7 @@ class SignUpFragment : Fragment() {
                 }
             }
             scope.launch {
-                signUpViewModel.signUiState.collect { state ->
+                signUpViewModel.authUiState.collect { state ->
                     if (state.isLoading) {
                         progressDialog?.show()
                     } else {
@@ -98,7 +100,7 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun handleFormState(formState: SignUpViewModel.FormState) {
+    private fun handleFormState(formState: AuthViewModel.FormState) {
         with(binding) {
             emailInput.isErrorEnabled = formState.emailHasError
             emailInput.error = requireContext().getStringOrNull(formState.emailErrorMessage)

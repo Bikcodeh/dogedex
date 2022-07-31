@@ -1,4 +1,4 @@
-package com.bikcodeh.dogrecognizer.presentation.account.signup
+package com.bikcodeh.dogrecognizer.presentation.account
 
 import android.text.TextUtils
 import android.util.Patterns
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(
+class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -31,9 +31,9 @@ class SignUpViewModel @Inject constructor(
         get() = _formUIState.asStateFlow()
 
 
-    private val _signUiState: MutableStateFlow<SignUpUiState> = MutableStateFlow(SignUpUiState())
-    val signUiState: StateFlow<SignUpUiState>
-        get() = _signUiState.asStateFlow()
+    private val _authUiState: MutableStateFlow<AuthUiState> = MutableStateFlow(AuthUiState())
+    val authUiState: StateFlow<AuthUiState>
+        get() = _authUiState.asStateFlow()
 
     private val _confirmPassword: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val confirmPassword: StateFlow<Boolean>
@@ -118,12 +118,12 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun signUp(email: String, password: String, confirmPassword: String) {
-        _signUiState.update { state -> state.copy(isLoading = true) }
+        _authUiState.update { state -> state.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.signUp(email, password, confirmPassword)
                 .fold(
                     onSuccess = {
-                        _signUiState.update { state ->
+                        _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
                                 user = it,
@@ -133,7 +133,7 @@ class SignUpViewModel @Inject constructor(
                         }
                     },
                     onError = { code, message ->
-                        _signUiState.update { state ->
+                        _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
                                 user = null,
@@ -144,7 +144,7 @@ class SignUpViewModel @Inject constructor(
                     }, onException = {
                         when (it.toError()) {
                             Error.Connectivity -> {
-                                _signUiState.update { state ->
+                                _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
                                         user = null,
@@ -154,7 +154,7 @@ class SignUpViewModel @Inject constructor(
                                 }
                             }
                             is Error.Server -> {
-                                _signUiState.update { state ->
+                                _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
                                         user = null,
@@ -164,7 +164,7 @@ class SignUpViewModel @Inject constructor(
                                 }
                             }
                             is Error.Unknown -> {
-                                _signUiState.update { state ->
+                                _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
                                         user = null,
@@ -179,7 +179,68 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    data class SignUpUiState(
+    fun logIn(email: String, password: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.signIn(email, password)
+                .fold(
+                    onSuccess = {
+                        _authUiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                user = it,
+                                errorMessage = null,
+                                errorMessageId = null
+                            )
+                        }
+                    },
+                    onError = { code, message ->
+                        _authUiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                user = null,
+                                errorMessage = message,
+                                errorMessageId = null
+                            )
+                        }
+                    }, onException = {
+                        when (it.toError()) {
+                            Error.Connectivity -> {
+                                _authUiState.update { state ->
+                                    state.copy(
+                                        isLoading = false,
+                                        user = null,
+                                        errorMessage = null,
+                                        errorMessageId = R.string.error_connectivity
+                                    )
+                                }
+                            }
+                            is Error.Server -> {
+                                _authUiState.update { state ->
+                                    state.copy(
+                                        isLoading = false,
+                                        user = null,
+                                        errorMessage = null,
+                                        errorMessageId = R.string.error_server
+                                    )
+                                }
+                            }
+                            is Error.Unknown -> {
+                                _authUiState.update { state ->
+                                    state.copy(
+                                        isLoading = false,
+                                        user = null,
+                                        errorMessage = null,
+                                        errorMessageId = R.string.error_unknown
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+        }
+    }
+
+    data class AuthUiState(
         val isLoading: Boolean = false,
         val user: User? = null,
         @StringRes val errorMessageId: Int? = null,

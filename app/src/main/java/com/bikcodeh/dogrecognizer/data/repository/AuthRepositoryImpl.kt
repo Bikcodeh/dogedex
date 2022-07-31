@@ -1,6 +1,7 @@
 package com.bikcodeh.dogrecognizer.data.repository
 
 import com.bikcodeh.dogrecognizer.data.remote.DogApiService
+import com.bikcodeh.dogrecognizer.data.remote.dto.auth.LogInDTO
 import com.bikcodeh.dogrecognizer.data.remote.dto.auth.SignUpDTO
 import com.bikcodeh.dogrecognizer.domain.model.User
 import com.bikcodeh.dogrecognizer.domain.model.common.Result
@@ -22,6 +23,29 @@ class AuthRepositoryImpl @Inject constructor(
         val response = makeSafeRequest {
             val signUpDTO = SignUpDTO(email, password, confirmPassword)
             dogApiService.signUp(signUpDTO)
+        }
+
+        return response.fold(
+            onSuccess = {
+                if (!it.isSuccess) {
+                    Result.Success(it.data.user.toDomain())
+                } else {
+                    Result.Error(HttpURLConnection.HTTP_BAD_REQUEST, it.message)
+                }
+            },
+            onError = { code, message ->
+                Result.Error(code, message)
+            },
+            onException = {
+                Result.Exception(it)
+            }
+        )
+    }
+
+    override suspend fun signIn(email: String, password: String): Result<User> {
+        val response = makeSafeRequest {
+            val logInDTO = LogInDTO(email, password)
+            dogApiService.logIn(logInDTO)
         }
 
         return response.fold(

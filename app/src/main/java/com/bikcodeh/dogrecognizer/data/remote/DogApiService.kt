@@ -1,6 +1,7 @@
 package com.bikcodeh.dogrecognizer.data.remote
 
-import com.bikcodeh.dogrecognizer.data.remote.dto.auth.SignUpApiResponse
+import com.bikcodeh.dogrecognizer.data.remote.dto.auth.AuthApiResponse
+import com.bikcodeh.dogrecognizer.data.remote.dto.auth.LogInDTO
 import com.bikcodeh.dogrecognizer.data.remote.dto.auth.SignUpDTO
 import com.bikcodeh.dogrecognizer.data.remote.dto.doglist.DogListApiResponse
 import retrofit2.Response
@@ -14,5 +15,8 @@ interface DogApiService {
     suspend fun getAllDogs(): Response<DogListApiResponse>
 
     @POST("sign_up")
-    suspend fun signUp(@Body signUpDTO: SignUpDTO): Response<SignUpApiResponse>
+    suspend fun signUp(@Body signUpDTO: SignUpDTO): Response<AuthApiResponse>
+
+    @POST("sign_in")
+    suspend fun logIn(@Body logInDTO: LogInDTO): Response<AuthApiResponse>
 }
