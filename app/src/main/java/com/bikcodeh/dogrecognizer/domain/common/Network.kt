@@ -1,4 +1,4 @@
-package com.bikcodeh.dogrecognizer.domain.model.common
+package com.bikcodeh.dogrecognizer.domain.common
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

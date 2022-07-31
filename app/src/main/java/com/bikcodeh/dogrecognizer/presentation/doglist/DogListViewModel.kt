@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.data.repository.DogRepositoryImpl
 import com.bikcodeh.dogrecognizer.domain.model.Dog
-import com.bikcodeh.dogrecognizer.domain.model.common.fold
+import com.bikcodeh.dogrecognizer.domain.common.fold
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

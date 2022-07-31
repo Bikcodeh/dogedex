@@ -4,9 +4,9 @@ import com.bikcodeh.dogrecognizer.data.remote.DogApiService
 import com.bikcodeh.dogrecognizer.data.remote.dto.auth.LogInDTO
 import com.bikcodeh.dogrecognizer.data.remote.dto.auth.SignUpDTO
 import com.bikcodeh.dogrecognizer.domain.model.User
-import com.bikcodeh.dogrecognizer.domain.model.common.Result
-import com.bikcodeh.dogrecognizer.domain.model.common.fold
-import com.bikcodeh.dogrecognizer.domain.model.common.makeSafeRequest
+import com.bikcodeh.dogrecognizer.domain.common.Result
+import com.bikcodeh.dogrecognizer.domain.common.fold
+import com.bikcodeh.dogrecognizer.domain.common.makeSafeRequest
 import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
 import java.net.HttpURLConnection
 import javax.inject.Inject

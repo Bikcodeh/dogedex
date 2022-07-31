@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.domain.model.User
-import com.bikcodeh.dogrecognizer.domain.model.common.Error
-import com.bikcodeh.dogrecognizer.domain.model.common.fold
-import com.bikcodeh.dogrecognizer.domain.model.common.toError
+import com.bikcodeh.dogrecognizer.domain.common.Error
+import com.bikcodeh.dogrecognizer.domain.common.fold
+import com.bikcodeh.dogrecognizer.domain.common.toError
 import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

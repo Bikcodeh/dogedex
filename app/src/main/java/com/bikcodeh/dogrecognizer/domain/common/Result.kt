@@ -1,4 +1,4 @@
-package com.bikcodeh.dogrecognizer.domain.model.common
+package com.bikcodeh.dogrecognizer.domain.common
 
 sealed class Result<T> {
     class Success<T>(val data: T) : Result<T>()
