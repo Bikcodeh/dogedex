@@ -3,18 +3,37 @@ package com.bikcodeh.dogrecognizer.presentation.account.signup
 import android.text.TextUtils
 import android.util.Patterns
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.R
+import com.bikcodeh.dogrecognizer.domain.model.User
+import com.bikcodeh.dogrecognizer.domain.model.common.Error
+import com.bikcodeh.dogrecognizer.domain.model.common.fold
+import com.bikcodeh.dogrecognizer.domain.model.common.toError
+import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _formUIState: MutableStateFlow<FormState> = MutableStateFlow(FormState())
     val formUiState: StateFlow<FormState>
         get() = _formUIState.asStateFlow()
+
+
+    private val _signUiState: MutableStateFlow<SignUpUiState> = MutableStateFlow(SignUpUiState())
+    val signUiState: StateFlow<SignUpUiState>
+        get() = _signUiState.asStateFlow()
 
     private val _confirmPassword: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val confirmPassword: StateFlow<Boolean>
@@ -97,6 +116,75 @@ class SignUpViewModel : ViewModel() {
             }
         }
     }
+
+    fun signUp(email: String, password: String, confirmPassword: String) {
+        _signUiState.update { state -> state.copy(isLoading = true) }
+        viewModelScope.launch(Dispatchers.IO) {
+            authRepository.signUp(email, password, confirmPassword)
+                .fold(
+                    onSuccess = {
+                        _signUiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                user = it,
+                                errorMessage = null,
+                                errorMessageId = null
+                            )
+                        }
+                    },
+                    onError = { code, message ->
+                        _signUiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                user = null,
+                                errorMessage = message,
+                                errorMessageId = null
+                            )
+                        }
+                    }, onException = {
+                        when (it.toError()) {
+                            Error.Connectivity -> {
+                                _signUiState.update { state ->
+                                    state.copy(
+                                        isLoading = false,
+                                        user = null,
+                                        errorMessage = null,
+                                        errorMessageId = R.string.error_connectivity
+                                    )
+                                }
+                            }
+                            is Error.Server -> {
+                                _signUiState.update { state ->
+                                    state.copy(
+                                        isLoading = false,
+                                        user = null,
+                                        errorMessage = null,
+                                        errorMessageId = R.string.error_server
+                                    )
+                                }
+                            }
+                            is Error.Unknown -> {
+                                _signUiState.update { state ->
+                                    state.copy(
+                                        isLoading = false,
+                                        user = null,
+                                        errorMessage = null,
+                                        errorMessageId = R.string.error_unknown
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+        }
+    }
+
+    data class SignUpUiState(
+        val isLoading: Boolean = false,
+        val user: User? = null,
+        @StringRes val errorMessageId: Int? = null,
+        val errorMessage: String? = null
+    )
 
     data class FormState(
         val emailHasError: Boolean = false,

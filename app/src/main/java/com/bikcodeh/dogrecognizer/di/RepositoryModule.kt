@@ -1,19 +1,24 @@
 package com.bikcodeh.dogrecognizer.di
 
-import com.bikcodeh.dogrecognizer.data.remote.DogApiService
+import com.bikcodeh.dogrecognizer.data.repository.AuthRepositoryImpl
 import com.bikcodeh.dogrecognizer.data.repository.DogRepositoryImpl
+import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
+import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @ViewModelScoped
-    fun providesDogRepository(dogApiService: DogApiService): DogRepositoryImpl =
-        DogRepositoryImpl(dogApiService)
+    abstract fun providesDogRepository(dogRepositoryImpl: DogRepositoryImpl): DogRepository
+
+    @Binds
+    @ViewModelScoped
+    abstract fun providesAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 }

@@ -6,15 +6,16 @@ import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.domain.model.common.Result
 import com.bikcodeh.dogrecognizer.domain.model.common.fold
 import com.bikcodeh.dogrecognizer.domain.model.common.makeSafeRequest
+import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DogRepositoryImpl @Inject constructor(
     private val dogApiService: DogApiService
-) {
+) : DogRepository {
 
-    suspend fun downloadDogs(): Result<List<Dog>> {
+    override suspend fun downloadDogs(): Result<List<Dog>> {
         val data = makeSafeRequest {
             dogApiService.getAllDogs()
         }
