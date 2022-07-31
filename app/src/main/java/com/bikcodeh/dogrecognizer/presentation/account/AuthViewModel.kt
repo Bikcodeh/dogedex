@@ -204,7 +204,7 @@ class AuthViewModel @Inject constructor(
                             )
                         }
                     }, onException = {
-                        when (it.toError()) {
+                        when (val error = it.toError()) {
                             Error.Connectivity -> {
                                 _authUiState.update { state ->
                                     state.copy(
@@ -221,7 +221,7 @@ class AuthViewModel @Inject constructor(
                                         isLoading = false,
                                         user = null,
                                         errorMessage = null,
-                                        errorMessageId = R.string.error_server
+                                        errorMessageId = error.messageResId
                                     )
                                 }
                             }

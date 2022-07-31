@@ -1,6 +1,7 @@
 package com.bikcodeh.dogrecognizer.data.repository
 
 import com.bikcodeh.dogrecognizer.data.remote.DogApiService
+import com.bikcodeh.dogrecognizer.data.remote.dto.auth.AuthApiResponse
 import com.bikcodeh.dogrecognizer.data.remote.dto.auth.LogInDTO
 import com.bikcodeh.dogrecognizer.data.remote.dto.auth.SignUpDTO
 import com.bikcodeh.dogrecognizer.domain.model.User
@@ -8,6 +9,11 @@ import com.bikcodeh.dogrecognizer.domain.common.Result
 import com.bikcodeh.dogrecognizer.domain.common.fold
 import com.bikcodeh.dogrecognizer.domain.common.makeSafeRequest
 import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
+import retrofit2.HttpException
+import retrofit2.Response
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -53,7 +59,14 @@ class AuthRepositoryImpl @Inject constructor(
                 if (it.isSuccess) {
                     Result.Success(it.data.user.toDomain())
                 } else {
-                    Result.Error(HttpURLConnection.HTTP_BAD_REQUEST, it.message)
+                    Result.Exception(
+                        HttpException(
+                            Response.error<ResponseBody>(
+                                HttpURLConnection.HTTP_UNAUTHORIZED,
+                                "".toResponseBody("plain/text".toMediaTypeOrNull())
+                            )
+                        )
+                    )
                 }
             },
             onError = { code, message ->
