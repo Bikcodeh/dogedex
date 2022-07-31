@@ -13,6 +13,7 @@ import com.bikcodeh.dogrecognizer.presentation.util.Constants.PREFERENCES_NAME
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_EMAIL_PREFERENCES_KEY
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_ID_PREFERENCES_KEY
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_TOKEN_PREFERENCES_KEY
+import com.bikcodeh.dogrecognizer.presentation.util.extension.toSafeLong
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -52,11 +53,19 @@ class DataStoreOperationsImpl @Inject constructor(
             }
         }.map { preferences: Preferences ->
             val user = User(
-                preferences[PreferencesKeys.id]?.toLong() ?: -1L,
+                preferences[PreferencesKeys.id]?.toSafeLong() ?: -1L,
                 preferences[PreferencesKeys.email] ?: "",
                 preferences[PreferencesKeys.token] ?: "",
             )
             user
+        }
+    }
+
+    override suspend fun deleteUser() {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.id] = ""
+            preferences[PreferencesKeys.email] = ""
+            preferences[PreferencesKeys.token] = ""
         }
     }
 }

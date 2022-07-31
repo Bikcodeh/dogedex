@@ -18,9 +18,13 @@
     <string name="required">Required</string>
     <string name="email_not_valid">Email is not valid</string>
     <string name="password_not_match">Password is not the same</string>
-    <string name="error_connectivity">A connection error ocurred.</string>
+    <string name="error_connectivity">A connection error occurred.</string>
     <string name="error_server">Internal server error.</string>
-    <string name="error_unknown">An unexpected error ocurred.</string>
-    <string name="loading">Loading...</string>
+    <string name="error_unknown">An unexpected error occurred.</string>
+    <string name="loading">Loading…</string>
     <string name="invalid_login">Email/password invalid</string>
+    <string name="dogedex">Dogedex</string>
+    <string name="logout">Log out</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout_description">Do you want to terminate your session?</string>
 </resources>

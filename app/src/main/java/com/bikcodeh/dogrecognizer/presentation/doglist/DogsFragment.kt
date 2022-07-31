@@ -1,16 +1,22 @@
 package com.bikcodeh.dogrecognizer.presentation.doglist
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogsBinding
 import com.bikcodeh.dogrecognizer.domain.model.Dog
+import com.bikcodeh.dogrecognizer.presentation.account.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val GRID_SPAN_COUNT = 3
@@ -41,6 +47,7 @@ class DogsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
+        setListeners()
         setUpObservers()
     }
 
@@ -56,9 +63,50 @@ class DogsFragment : Fragment() {
         }
     }
 
+    private fun confirmLogout() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton(getString(R.string.logout)) { _, _ ->
+            logOut()
+        }
+        builder.setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+        builder.setTitle(getString(R.string.logout))
+        builder.setMessage(getString(R.string.logout_description))
+        builder.create().show()
+    }
+
+    private fun showMenu(view: View) {
+        val popUp = PopupMenu(requireContext(), view)
+        popUp.menuInflater.inflate(R.menu.menu_logout, popUp.menu)
+        popUp.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.itemLogout -> {
+                    confirmLogout()
+                    popUp.dismiss()
+                    true
+                }
+                else -> false
+            }
+        }
+        popUp.show()
+    }
+
     private fun setUpObservers() {
         dogViewModel.dogsLivedata.observe(viewLifecycleOwner) {
             dogAdapter.submitList(it)
+        }
+    }
+
+    private fun setListeners() {
+        binding.menuBtn.setOnClickListener {
+            showMenu(it)
+        }
+    }
+
+    private fun logOut() {
+        dogViewModel.logOut()
+        Intent(activity, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
         }
     }
 
