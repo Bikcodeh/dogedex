@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.R
+import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.domain.model.User
 import com.bikcodeh.dogrecognizer.domain.common.Error
 import com.bikcodeh.dogrecognizer.domain.common.fold
@@ -126,6 +127,7 @@ class AuthViewModel @Inject constructor(
                 .fold(
                     onSuccess = {
                         dataStoreOperations.saveUser(it.id, it.email, it.authenticationToken)
+                        ApiServiceInterceptor.setToken(it.authenticationToken)
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
@@ -196,6 +198,7 @@ class AuthViewModel @Inject constructor(
                 .fold(
                     onSuccess = {
                         dataStoreOperations.saveUser(it.id, it.email, it.authenticationToken)
+                        ApiServiceInterceptor.setToken(it.authenticationToken)
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,

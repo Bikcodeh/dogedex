@@ -2,6 +2,7 @@ package com.bikcodeh.dogrecognizer.di
 
 import com.bikcodeh.dogrecognizer.BuildConfig
 import com.bikcodeh.dogrecognizer.data.remote.DogApiService
+import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.presentation.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -31,6 +32,7 @@ object NetworkModule {
             writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             retryOnConnectionFailure(true)
             addInterceptor(loggingInterceptorProvider())
+            addInterceptor(ApiServiceInterceptor)
         }.build()
 
     private fun loggingInterceptorProvider(): HttpLoggingInterceptor {
