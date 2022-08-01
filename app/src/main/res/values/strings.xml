@@ -29,4 +29,8 @@
     <string name="logout_description">Do you want to terminate your session?</string>
     <string name="added">Dog added.</string>
     <string name="error_adding_dog">An error occurred adding the dog.</string>
+    <string name="all_dogs">Dogs</string>
+    <string name="favorite_dogs">Favorite</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
