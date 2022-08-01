@@ -1,15 +1,12 @@
 package com.bikcodeh.dogrecognizer.presentation.doglist
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.data.repository.DogRepositoryImpl
-import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.domain.common.fold
+import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,9 +23,9 @@ class DogListViewModel @Inject constructor(
     private val dataStoreOperations: DataStoreOperations
 ) : ViewModel() {
 
-    private val _dogsLivedata = MutableLiveData<List<Dog>>()
-    val dogsLivedata: LiveData<List<Dog>>
-        get() = _dogsLivedata
+    private val _dogsUiState: MutableStateFlow<DogsUiState> = MutableStateFlow(DogsUiState())
+    val dogsUiState: StateFlow<DogsUiState>
+        get() = _dogsUiState.asStateFlow()
 
     private val _addDogState: MutableStateFlow<AddDogUiState> = MutableStateFlow(AddDogUiState())
     val addDogState: StateFlow<AddDogUiState>
@@ -38,18 +35,43 @@ class DogListViewModel @Inject constructor(
         downloadDogs()
     }
 
-    private fun downloadDogs() {
+    fun downloadDogs() {
+        _dogsUiState.update { state ->
+            state.copy(
+                isLoading = true,
+                dogs = null,
+                error = null
+            )
+        }
         viewModelScope.launch {
             dogRepositoryImpl.downloadDogs()
                 .fold(
                     onSuccess = {
-                        _dogsLivedata.value = it
+                        _dogsUiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                dogs = it,
+                                error = null
+                            )
+                        }
                     },
-                    onError = { _, message ->
-                        Log.d("ERROR", message.toString())
+                    onError = { _, _ ->
+                        _dogsUiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                dogs = null,
+                                error = R.string.error_unknown
+                            )
+                        }
                     },
                     onException = {
-                        Log.d("ERROR", it.message.toString())
+                        _dogsUiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                dogs = null,
+                                error = R.string.error_connectivity
+                            )
+                        }
                     }
                 )
         }
@@ -117,6 +139,12 @@ class DogListViewModel @Inject constructor(
     data class AddDogUiState(
         val isLoading: Boolean = false,
         val isSuccess: Boolean? = null,
+        val error: Int? = null
+    )
+
+    data class DogsUiState(
+        val isLoading: Boolean = false,
+        val dogs: List<Dog>? = null,
         val error: Int? = null
     )
 }

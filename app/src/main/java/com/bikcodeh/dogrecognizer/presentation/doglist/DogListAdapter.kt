@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
+import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.ItemDogBinding
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 
@@ -32,7 +34,12 @@ class DogListAdapter(
             binding.dogListItemLayout.setOnClickListener {
                 onItemClick(dog)
             }
-            binding.dogImage.load(dog.imageUrl)
+            binding.dogImage.load(dog.imageUrl) {
+                crossfade(true)
+                placeholder(R.drawable.ic_image)
+                error(R.drawable.ic_broken_image)
+                transformations(CircleCropTransformation())
+            }
 
             binding.dogListItemLayout.setOnLongClickListener {
                 onLongClick(dog.id.toString())

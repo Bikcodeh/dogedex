@@ -32,4 +32,7 @@
     <string name="all_dogs">Dogs</string>
     <string name="favorite_dogs">Favorite</string>
     <string name="empty_favorite">Ups! You don\'t have favorite dogs yet.</string>
+    <string name="permission_required_description">If you want to take some picture, the app cannot work without camera permission.</string>
+    <string name="try_again">Try again</string>
+    <string name="empty_dogs">Ups! There aren\'t dogs available</string>
 </resources>
