@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bikcodeh.dogrecognizer.MainActivity
 import com.bikcodeh.dogrecognizer.R
+import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.databinding.ActivitySplashBinding
 import com.bikcodeh.dogrecognizer.presentation.account.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +52,7 @@ class SplashActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 splashViewModel.userLogged.collect { user ->
                     if (user?.authenticationToken?.isNotEmpty() == true) {
+                        ApiServiceInterceptor.setToken(user.authenticationToken)
                         startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                         finish()
                     } else {

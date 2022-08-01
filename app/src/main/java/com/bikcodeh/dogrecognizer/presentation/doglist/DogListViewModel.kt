@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.R
+import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.data.repository.DogRepositoryImpl
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.domain.common.fold
@@ -55,6 +56,7 @@ class DogListViewModel @Inject constructor(
     }
 
     fun logOut() {
+        ApiServiceInterceptor.clearToken()
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreOperations.deleteUser()
         }

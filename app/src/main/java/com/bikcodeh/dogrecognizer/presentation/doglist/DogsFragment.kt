@@ -104,9 +104,11 @@ class DogsFragment : Fragment() {
             scope.launch {
                 dogViewModel.addDogState.collect { state ->
                     if (state.isSuccess == true) {
-                        requireView().snack(getString(R.string.added))
+                        binding.coordinatorParent.snack(getString(R.string.added))
                     } else {
-                        requireView().snack(requireContext().getSafeString(state.error))
+                        state.error?.let {
+                            binding.coordinatorParent.snack(getString(it))
+                        }
                     }
 
                     if (state.isLoading) {
@@ -115,7 +117,7 @@ class DogsFragment : Fragment() {
                         binding.addDogLoadingPb.hide()
                     }
                     state.error?.let {
-                        requireView().snack(getString(it))
+                        binding.coordinatorParent.snack(getString(it))
                     }
                 }
             }
