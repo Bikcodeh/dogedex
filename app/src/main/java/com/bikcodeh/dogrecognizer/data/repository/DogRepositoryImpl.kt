@@ -1,6 +1,8 @@
 package com.bikcodeh.dogrecognizer.data.repository
 
 import com.bikcodeh.dogrecognizer.data.remote.DogApiService
+import com.bikcodeh.dogrecognizer.data.remote.dto.DefaultResponse
+import com.bikcodeh.dogrecognizer.data.remote.dto.user.AddDogToUserDTO
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.domain.common.Result
 import com.bikcodeh.dogrecognizer.domain.common.fold
@@ -27,5 +29,12 @@ class DogRepositoryImpl @Inject constructor(
                 Result.Exception(it)
             }
         )
+    }
+
+    override suspend fun addDogToUser(dogId: String): Result<DefaultResponse> {
+        return makeSafeRequest {
+            val addDogToUserDTO = AddDogToUserDTO(dogId)
+            dogApiService.addDogToUser(addDogToUserDTO)
+        }
     }
 }

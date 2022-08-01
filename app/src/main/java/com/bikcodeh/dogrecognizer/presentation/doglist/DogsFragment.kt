@@ -17,7 +17,9 @@ import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogsBinding
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.presentation.account.login.LoginActivity
+import com.bikcodeh.dogrecognizer.presentation.util.extension.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 private const val GRID_SPAN_COUNT = 3
 
@@ -31,9 +33,12 @@ class DogsFragment : Fragment() {
     private val dogViewModel by viewModels<DogListViewModel>()
 
     private val dogAdapter: DogListAdapter by lazy {
-        DogListAdapter {
-            navigateToDetail(it)
-        }
+        DogListAdapter(
+            onItemClick = {
+                navigateToDetail(it)
+            }, onLongClick = {
+                dogViewModel.addDogToUser(it)
+            })
     }
 
     override fun onCreateView(
@@ -93,6 +98,27 @@ class DogsFragment : Fragment() {
     private fun setUpObservers() {
         dogViewModel.dogsLivedata.observe(viewLifecycleOwner) {
             dogAdapter.submitList(it)
+        }
+
+        observeFlows { scope ->
+            scope.launch {
+                dogViewModel.addDogState.collect { state ->
+                    if (state.isSuccess == true) {
+                        requireView().snack(getString(R.string.added))
+                    } else {
+                        requireView().snack(requireContext().getSafeString(state.error))
+                    }
+
+                    if (state.isLoading) {
+                        binding.addDogLoadingPb.show()
+                    } else {
+                        binding.addDogLoadingPb.hide()
+                    }
+                    state.error?.let {
+                        requireView().snack(getString(it))
+                    }
+                }
+            }
         }
     }
 

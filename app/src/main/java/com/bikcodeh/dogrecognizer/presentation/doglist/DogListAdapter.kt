@@ -9,7 +9,10 @@ import coil.load
 import com.bikcodeh.dogrecognizer.databinding.ItemDogBinding
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 
-class DogListAdapter(private val onItemClick: (Dog) -> Unit) : ListAdapter<Dog, DogListAdapter.DogViewHolder>(DiffCallback()) {
+class DogListAdapter(
+    private val onItemClick: (Dog) -> Unit,
+    private val onLongClick: (dogId: String) -> Unit
+) : ListAdapter<Dog, DogListAdapter.DogViewHolder>(DiffCallback()) {
 
     private class DiffCallback : DiffUtil.ItemCallback<Dog>() {
         override fun areItemsTheSame(oldItem: Dog, newItem: Dog): Boolean {
@@ -29,6 +32,11 @@ class DogListAdapter(private val onItemClick: (Dog) -> Unit) : ListAdapter<Dog, 
                 onItemClick(dog)
             }
             binding.dogImage.load(dog.imageUrl)
+
+            binding.root.setOnLongClickListener {
+                onLongClick(dog.id.toString())
+                true
+            }
         }
     }
 

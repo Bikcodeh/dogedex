@@ -27,4 +27,6 @@
     <string name="logout">Log out</string>
     <string name="cancel">Cancel</string>
     <string name="logout_description">Do you want to terminate your session?</string>
+    <string name="added">Dog added.</string>
+    <string name="error_adding_dog">An error occurred adding the dog.</string>
 </resources>

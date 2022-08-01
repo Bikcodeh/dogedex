@@ -14,6 +14,13 @@ fun Context.getStringOrNull(@StringRes resId: Int?): String? {
     }
 }
 
+fun Context.getSafeString(@StringRes resId: Int?): String {
+    return resId?.let { getString(it) }
+        ?: run {
+            getString(R.string.error_unknown)
+        }
+}
+
 fun Context.createProgressDialog(): AlertDialog {
     val view = LayoutInflater.from(this).inflate(R.layout.dialog_loading, null)
     return AlertDialog.Builder(this)
