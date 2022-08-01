@@ -27,4 +27,9 @@ interface DogApiService {
     @Headers("${ApiServiceInterceptor.NEEDS_AUTH_HEADER_KEY}: true")
     @POST("add_dog_to_user")
     suspend fun addDogToUser(@Body addDogToUserDTO: AddDogToUserDTO): Response<DefaultResponse>
+
+    @Headers("${ApiServiceInterceptor.NEEDS_AUTH_HEADER_KEY}: true")
+    @GET("get_user_dogs")
+    suspend fun getUserDogs(): Response<DogListApiResponse>
+
 }

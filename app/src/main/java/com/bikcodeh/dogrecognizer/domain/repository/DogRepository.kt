@@ -8,4 +8,5 @@ import retrofit2.Response
 interface DogRepository {
     suspend fun downloadDogs(): Result<List<Dog>>
     suspend fun addDogToUser(dogId: String): Result<DefaultResponse>
+    suspend fun getUserDogs(): Result<List<Dog>>
 }

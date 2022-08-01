@@ -37,4 +37,22 @@ class DogRepositoryImpl @Inject constructor(
             dogApiService.addDogToUser(addDogToUserDTO)
         }
     }
+
+    override suspend fun getUserDogs(): Result<List<Dog>> {
+        val response = makeSafeRequest {
+            dogApiService.getUserDogs()
+        }
+
+        return response.fold(
+            onSuccess = {
+                Result.Success(it.data.dogs.map { dogDTO -> dogDTO.toDomain() })
+            },
+            onError = { code, message ->
+                Result.Error(code, message)
+            },
+            onException = {
+                Result.Exception(it)
+            }
+        )
+    }
 }
