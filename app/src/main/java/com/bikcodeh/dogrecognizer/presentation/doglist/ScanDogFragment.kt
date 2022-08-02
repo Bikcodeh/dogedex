@@ -6,10 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -91,6 +88,13 @@ class ScanDogFragment : Fragment() {
                 val cameraProvider = cameraProviderFuture.get()
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
                 val preview = Preview.Builder().build()
+                val imageAnalysis = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .build()
+                imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
+                    val rotationDegrees = imageProxy.imageInfo.rotationDegrees
+                    imageProxy.close()
+                }
 
                 try {
                     cameraProvider.unbindAll()
@@ -98,7 +102,8 @@ class ScanDogFragment : Fragment() {
                         viewLifecycleOwner,
                         cameraSelector,
                         preview,
-                        imageCapture
+                        imageCapture,
+                        imageAnalysis
                     )
                     preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
                 } catch (exc: Exception) {
