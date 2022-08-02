@@ -1,5 +1,6 @@
 package com.bikcodeh.dogrecognizer.presentation.doglist
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +13,15 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import coil.load
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentScanDogBinding
+import com.bikcodeh.dogrecognizer.presentation.util.extension.hide
+import com.bikcodeh.dogrecognizer.presentation.util.extension.show
+import com.bikcodeh.dogrecognizer.presentation.util.extension.snack
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -50,8 +58,17 @@ class ScanDogFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.takePhotoBtn.setOnClickListener {
-            takePhoto()
+        with(binding) {
+            takePhotoBtn.setOnClickListener {
+                takePhoto()
+            }
+            takeAgainBtn.setOnClickListener {
+                takePhotoGroup.show()
+                photoTakenGroup.hide()
+            }
+            okBtn.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -113,13 +130,38 @@ class ScanDogFragment : Fragment() {
             imageCapture.takePicture(outputFileOptions, cameraExecutor,
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-
+                        val photoUri = outputFileResults.savedUri
+                        handleOnSuccessPhoto(photoUri)
                     }
 
                     override fun onError(exception: ImageCaptureException) {
-
+                        binding.root.snack(getString(R.string.error_taking_photo))
                     }
                 })
+        }
+    }
+
+    private fun handleOnSuccessPhoto(uri: Uri?) {
+        with(binding) {
+            uri?.let { uri ->
+                uri.path?.let { safePath ->
+                    MainScope().launch {
+                        takePhotoGroup.hide()
+                        photoTakenIv.load(safePath)
+                        photoTakenGroup.show()
+                    }
+                } ?: {
+                    MainScope().launch {
+                        takePhotoGroup.show()
+                        photoTakenGroup.hide()
+                    }
+                }
+            } ?: run {
+                MainScope().launch {
+                    takePhotoGroup.show()
+                    photoTakenGroup.hide()
+                }
+            }
         }
     }
 }

@@ -35,4 +35,7 @@
     <string name="permission_required_description">If you want to take some picture, the app cannot work without camera permission.</string>
     <string name="try_again">Try again</string>
     <string name="empty_dogs">Ups! There aren\'t dogs available</string>
+    <string name="error_taking_photo">An error occurred while taking photo, please try again.</string>
+    <string name="ok">Ok</string>
+    <string name="take_again">Try again</string>
 </resources>
