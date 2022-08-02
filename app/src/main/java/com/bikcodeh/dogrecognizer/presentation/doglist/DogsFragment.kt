@@ -2,12 +2,16 @@ package com.bikcodeh.dogrecognizer.presentation.doglist
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -145,6 +149,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 viewEmptyDogs.root.hide()
                 viewErrorDogs.root.show()
                 viewErrorDogs.errorTextTv.text = getString(it)
+                scanDogBtn.hide()
             } ?: run {
                 binding.viewErrorDogs.root.hide()
             }
@@ -158,6 +163,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 dogListRv.hide()
                 viewErrorDogs.root.hide()
                 viewEmptyDogs.root.hide()
+                scanDogBtn.hide()
             } else {
                 loadingPb.hide()
             }
@@ -166,6 +172,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun handleViewOnSuccess(dogs: List<Dog>) {
         with(binding) {
+            scanDogBtn.show()
             if (dogs.isNotEmpty()) {
                 dogListRv.show()
                 dogAdapter.submitList(dogs)
@@ -188,7 +195,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         binding.scanDogBtn.setOnClickListener {
             if (hasCameraPermission(requireContext())) {
-                Toast.makeText(requireContext(), "Granted", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_dogsFragment_to_scanDogFragment)
             } else {
                 requestCameraPermission(this)
             }
@@ -221,7 +228,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         if (requestCode == Constants.PERMISSION_CAMERA_REQUEST_CODE
             && perms.count() == TOTAL_REQUIRED_PERMISSIONS_COUNT
         ) {
-            Toast.makeText(requireContext(), "Granted", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_dogsFragment_to_scanDogFragment)
         }
     }
 

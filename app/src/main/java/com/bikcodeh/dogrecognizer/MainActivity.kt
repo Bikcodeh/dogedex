@@ -33,17 +33,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpListeners() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.dogDetailFragment) {
-                binding.bottomNavigation.visibility = View.GONE
-            } else {
-                binding.bottomNavigation.visibility = View.VISIBLE
+            when (destination.id) {
+                R.id.dogDetailFragment, R.id.scanDogFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                }
+                else -> {
+                    binding.bottomNavigation.visibility = View.VISIBLE
+                }
             }
         }
     }
-
-    /*override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }*/
 }
