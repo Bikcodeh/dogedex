@@ -7,4 +7,5 @@ object Constants {
     const val USER_EMAIL_PREFERENCES_KEY = "user_email_key"
     const val USER_TOKEN_PREFERENCES_KEY = "user_token_key"
     const val PERMISSION_CAMERA_REQUEST_CODE = 2
+    const val MAX_RECOGNITION_DOG_RESULTS = 5
 }
