@@ -136,8 +136,18 @@ class DogListViewModel @Inject constructor(
         }
     }
 
+    fun onDogAdded() {
+        _addDogState.update { state ->
+            state.copy(
+                isLoading = null,
+                isSuccess = null,
+                error = null
+            )
+        }
+    }
+
     data class AddDogUiState(
-        val isLoading: Boolean = false,
+        val isLoading: Boolean? = null,
         val isSuccess: Boolean? = null,
         val error: Int? = null
     )

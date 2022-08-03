@@ -1,5 +1,6 @@
 package com.bikcodeh.dogrecognizer.presentation.doglist
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,11 +15,15 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentScanDogBinding
+import com.bikcodeh.dogrecognizer.ml.Classifier
+import com.bikcodeh.dogrecognizer.presentation.util.Constants.LABEL_PATH
+import com.bikcodeh.dogrecognizer.presentation.util.Constants.MODEL_PATH
 import com.bikcodeh.dogrecognizer.presentation.util.extension.hide
 import com.bikcodeh.dogrecognizer.presentation.util.extension.show
 import com.bikcodeh.dogrecognizer.presentation.util.extension.snack
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import org.tensorflow.lite.support.common.FileUtil
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -31,6 +36,7 @@ class ScanDogFragment : Fragment() {
 
     private lateinit var imageCapture: ImageCapture
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var classifier: Classifier
 
 
     override fun onCreateView(
@@ -45,6 +51,14 @@ class ScanDogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
         setUpCamera()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        classifier = Classifier(
+            FileUtil.loadMappedFile(requireContext(), MODEL_PATH),
+            FileUtil.loadLabels(requireContext(), LABEL_PATH)
+        )
     }
 
     override fun onDestroyView() {
@@ -136,6 +150,9 @@ class ScanDogFragment : Fragment() {
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                         val photoUri = outputFileResults.savedUri
+                        val bitmap = BitmapFactory.decodeFile(photoUri?.path)
+
+                        classifier.recognizeImage(bitmap)
                         handleOnSuccessPhoto(photoUri)
                     }
 

@@ -2,16 +2,11 @@ package com.bikcodeh.dogrecognizer.presentation.doglist
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -129,14 +124,17 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                         }
                     }
 
-                    if (state.isLoading) {
-                        binding.loadingPb.show()
-                    } else {
-                        binding.loadingPb.hide()
+                    state.isLoading?.let {
+                        if (it) {
+                            binding.loadingPb.show()
+                        } else {
+                            binding.loadingPb.hide()
+                        }
                     }
                     state.error?.let {
                         binding.coordinatorParent.snack(getString(it))
                     }
+                    dogViewModel.onDogAdded()
                 }
             }
         }
@@ -159,11 +157,11 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun handleViewOnLoading(isLoading: Boolean) {
         with(binding) {
             if (isLoading) {
-                loadingPb.show()
                 dogListRv.hide()
                 viewErrorDogs.root.hide()
                 viewEmptyDogs.root.hide()
                 scanDogBtn.hide()
+                loadingPb.show()
             } else {
                 loadingPb.hide()
             }
