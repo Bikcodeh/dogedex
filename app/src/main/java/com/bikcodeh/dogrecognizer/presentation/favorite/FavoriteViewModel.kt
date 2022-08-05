@@ -27,8 +27,8 @@ class FavoriteViewModel @Inject constructor(
     val effect = _effect.receiveAsFlow()
 
     fun getFavoriteDogs() {
-        setEffect(Effect.IsLoading(true))
         viewModelScope.launch(Dispatchers.IO) {
+            _effect.send(Effect.IsLoading(true))
             dogRepository.getUserDogs().fold(
                 onSuccess = {
                     _favoriteDogs.update { state ->
@@ -56,12 +56,6 @@ class FavoriteViewModel @Inject constructor(
                 }
             )
             _effect.send(Effect.IsLoading(false))
-        }
-    }
-
-    private fun setEffect(uiEffect: Effect) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _effect.send(uiEffect)
         }
     }
 
