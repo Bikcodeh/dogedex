@@ -8,10 +8,8 @@ import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,20 +23,16 @@ class FavoriteViewModel @Inject constructor(
     val favoriteDogs: StateFlow<FavoriteUiState>
         get() = _favoriteDogs.asStateFlow()
 
+    private val _effect: Channel<Effect> = Channel()
+    val effect = _effect.receiveAsFlow()
+
     fun getFavoriteDogs() {
-        _favoriteDogs.update { state ->
-            state.copy(
-                isLoading = true,
-                dogs = emptyList(),
-                error = null
-            )
-        }
+        setEffect(Effect.IsLoading(true))
         viewModelScope.launch(Dispatchers.IO) {
             dogRepository.getUserDogs().fold(
                 onSuccess = {
                     _favoriteDogs.update { state ->
                         state.copy(
-                            isLoading = false,
                             dogs = it,
                             error = null
                         )
@@ -47,7 +41,6 @@ class FavoriteViewModel @Inject constructor(
                 onError = { _, _ ->
                     _favoriteDogs.update { state ->
                         state.copy(
-                            isLoading = false,
                             dogs = emptyList(),
                             error = R.string.error_unknown
                         )
@@ -56,18 +49,27 @@ class FavoriteViewModel @Inject constructor(
                 onException = {
                     _favoriteDogs.update { state ->
                         state.copy(
-                            isLoading = false,
                             dogs = emptyList(),
                             error = R.string.error_connectivity
                         )
                     }
                 }
             )
+            _effect.send(Effect.IsLoading(false))
         }
     }
 
+    private fun setEffect(uiEffect: Effect) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _effect.send(uiEffect)
+        }
+    }
+
+    sealed class Effect {
+        data class IsLoading(val isLoading: Boolean) : Effect()
+    }
+
     data class FavoriteUiState(
-        val isLoading: Boolean = false,
         val dogs: List<Dog> = emptyList(),
         val error: Int? = null
     )

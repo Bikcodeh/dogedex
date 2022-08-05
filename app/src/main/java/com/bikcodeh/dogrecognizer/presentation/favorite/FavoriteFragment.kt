@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bikcodeh.dogrecognizer.databinding.FragmentFavoriteBinding
@@ -44,9 +43,17 @@ class FavoriteFragment : Fragment() {
 
     private fun setUpCollectors() {
         observeFlows { scope ->
+
+            scope.launch {
+                favoriteViewModel.effect.collect { state ->
+                    when (state) {
+                        is FavoriteViewModel.Effect.IsLoading -> handleLoading(state.isLoading)
+                    }
+                }
+            }
+
             scope.launch {
                 favoriteViewModel.favoriteDogs.collect { state ->
-                    binding.favoriteLoadingPb.isVisible = state.isLoading
                     handleOnSuccess(state.dogs)
                     state.error?.let {
                         handleOnError(it)
@@ -54,6 +61,19 @@ class FavoriteFragment : Fragment() {
                         binding.viewErrorFavorite.root.hide()
                     }
                 }
+            }
+        }
+    }
+
+    private fun handleLoading(isLoading: Boolean) {
+        with(binding) {
+            if (isLoading) {
+                favoriteLoadingPb.show()
+                favoriteRv.hide()
+                emptyFavoritesView.root.hide()
+                viewErrorFavorite.root.hide()
+            } else {
+                favoriteLoadingPb.hide()
             }
         }
     }
@@ -70,7 +90,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun handleOnError(resId: Int) {
-        with (binding) {
+        with(binding) {
             favoriteRv.hide()
             emptyFavoritesView.root.hide()
             root.snack(getString(resId))
