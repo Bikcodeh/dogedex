@@ -17,18 +17,16 @@ import androidx.navigation.fragment.findNavController
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentScanDogBinding
 import com.bikcodeh.dogrecognizer.ml.Classifier
-import com.bikcodeh.dogrecognizer.presentation.util.Constants.LABEL_PATH
-import com.bikcodeh.dogrecognizer.presentation.util.Constants.MODEL_PATH
 import com.bikcodeh.dogrecognizer.presentation.util.extension.hide
 import com.bikcodeh.dogrecognizer.presentation.util.extension.observeFlows
 import com.bikcodeh.dogrecognizer.presentation.util.extension.show
 import com.bikcodeh.dogrecognizer.presentation.util.extension.snack
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.tensorflow.lite.support.common.FileUtil
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ScanDogFragment : Fragment() {
@@ -40,7 +38,9 @@ class ScanDogFragment : Fragment() {
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var classifier: Classifier
+
+    @Inject
+    lateinit var classifier: Classifier
 
     private val dogViewModel: DogListViewModel by viewModels()
     private lateinit var safeContext: Context
@@ -55,10 +55,6 @@ class ScanDogFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        classifier = Classifier(
-            FileUtil.loadMappedFile(requireContext(), MODEL_PATH),
-            FileUtil.loadLabels(requireContext(), LABEL_PATH)
-        )
         cameraExecutor = Executors.newSingleThreadExecutor()
         startCamera()
         setListeners()
