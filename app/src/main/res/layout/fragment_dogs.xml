@@ -14,7 +14,8 @@
         android:layout_gravity="center"
         android:elevation="10dp"
         android:indeterminate="true"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

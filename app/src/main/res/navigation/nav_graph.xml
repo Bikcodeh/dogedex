@@ -19,13 +19,6 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_dogsFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_dogsFragment_to_scanDogFragment"
             app:destination="@id/scanDogFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -43,14 +36,25 @@
             android:name="itemDog"
             app:argType="com.bikcodeh.dogrecognizer.domain.model.Dog" />
     </fragment>
+
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.bikcodeh.dogrecognizer.presentation.favorite.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
+
     <fragment
         android:id="@+id/scanDogFragment"
         android:name="com.bikcodeh.dogrecognizer.presentation.doglist.ScanDogFragment"
         android:label="fragment_scan_dog"
-        tools:layout="@layout/fragment_scan_dog" />
+        tools:layout="@layout/fragment_scan_dog" >
+        <action
+            android:id="@+id/action_scanDogFragment_to_dogDetailFragment"
+            app:destination="@id/dogDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
 </navigation>

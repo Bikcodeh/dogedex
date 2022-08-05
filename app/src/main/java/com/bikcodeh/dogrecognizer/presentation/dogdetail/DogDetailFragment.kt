@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -2,6 +2,7 @@ package com.bikcodeh.dogrecognizer.data.repository
 
 import com.bikcodeh.dogrecognizer.data.remote.DogApiService
 import com.bikcodeh.dogrecognizer.data.remote.dto.DefaultResponse
+import com.bikcodeh.dogrecognizer.data.remote.dto.DogApiResponse
 import com.bikcodeh.dogrecognizer.data.remote.dto.user.AddDogToUserDTO
 import com.bikcodeh.dogrecognizer.domain.model.Dog
 import com.bikcodeh.dogrecognizer.domain.common.Result
@@ -54,5 +55,9 @@ class DogRepositoryImpl @Inject constructor(
                 Result.Exception(it)
             }
         )
+    }
+
+    override suspend fun getRecognizedDog(mlDogId: String): Result<DogApiResponse> {
+        return makeSafeRequest { dogApiService.getDogByMlId(mlDogId) }
     }
 }

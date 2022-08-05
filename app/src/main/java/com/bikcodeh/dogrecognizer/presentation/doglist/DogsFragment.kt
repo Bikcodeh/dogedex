@@ -107,34 +107,28 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
             scope.launch {
                 dogViewModel.dogsUiState.collect { state ->
-                    handleViewOnLoading(state.isLoading)
-                    handleViewsOnError(state.error)
+                    state.error?.let {
+                        handleViewsOnError(it)
+                    }
                     state.dogs?.let {
                         handleViewOnSuccess(it)
                     }
                 }
             }
-            scope.launch {
-                dogViewModel.addDogState.collect { state ->
-                    if (state.isSuccess == true) {
-                        binding.coordinatorParent.snack(getString(R.string.added))
-                    } else {
-                        state.error?.let {
-                            binding.coordinatorParent.snack(getString(it))
-                        }
-                    }
 
-                    state.isLoading?.let {
-                        if (it) {
-                            binding.loadingPb.show()
-                        } else {
-                            binding.loadingPb.hide()
-                        }
+            scope.launch {
+                dogViewModel.effect.collect { state ->
+                    when (state) {
+                        DogListViewModel.Effect.HideLoading -> binding.loadingPb.hide()
+                        DogListViewModel.Effect.ShowLoading -> binding.loadingPb.show()
+                        is DogListViewModel.Effect.NavigateToDetail -> {}
+                        is DogListViewModel.Effect.ShowSnackBar -> binding.root.snack(
+                            getString(
+                                state.resId
+                            )
+                        )
+                        is DogListViewModel.Effect.IsLoadingDogs -> handleViewOnLoading(state.isLoading)
                     }
-                    state.error?.let {
-                        binding.coordinatorParent.snack(getString(it))
-                    }
-                    dogViewModel.onDogAdded()
                 }
             }
         }
