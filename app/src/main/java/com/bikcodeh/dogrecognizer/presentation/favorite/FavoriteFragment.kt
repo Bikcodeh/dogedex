@@ -68,25 +68,32 @@ class FavoriteFragment : Fragment() {
     private fun handleLoading(isLoading: Boolean) {
         with(binding) {
             if (isLoading) {
-                favoriteLoadingPb.show()
                 favoriteRv.hide()
                 emptyFavoritesView.root.hide()
                 viewErrorFavorite.root.hide()
+                favoriteLoadingPb.show()
             } else {
                 favoriteLoadingPb.hide()
             }
         }
     }
 
-    private fun handleOnSuccess(dogs: List<Dog>) {
-        if (dogs.isEmpty()) {
-            binding.favoriteRv.hide()
-            binding.emptyFavoritesView.root.show()
-        } else {
-            favoriteAdapter.submitList(dogs)
+    private fun handleOnSuccess(dogs: List<Dog>?) {
+        dogs?.let {
+            if (dogs.isEmpty()) {
+                binding.favoriteRv.hide()
+                binding.emptyFavoritesView.root.show()
+            } else {
+                favoriteAdapter.submitList(dogs)
+                binding.emptyFavoritesView.root.hide()
+                binding.favoriteRv.show()
+            }
+        } ?: run {
+            favoriteAdapter.submitList(emptyList())
             binding.emptyFavoritesView.root.hide()
             binding.favoriteRv.show()
         }
+
     }
 
     private fun handleOnError(resId: Int) {

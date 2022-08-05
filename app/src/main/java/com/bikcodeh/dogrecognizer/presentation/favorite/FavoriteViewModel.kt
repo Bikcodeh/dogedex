@@ -70,7 +70,7 @@ class FavoriteViewModel @Inject constructor(
     }
 
     data class FavoriteUiState(
-        val dogs: List<Dog> = emptyList(),
+        val dogs: List<Dog>? = null,
         val error: Int? = null
     )
 }
