@@ -9,7 +9,8 @@ import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,10 +19,10 @@ class FavoriteViewModel @Inject constructor(
     private val dogRepository: DogRepository
 ) : ViewModel() {
 
-    private val _favoriteDogs: MutableStateFlow<FavoriteUiState> =
-        MutableStateFlow(FavoriteUiState())
-    val favoriteDogs: StateFlow<FavoriteUiState>
-        get() = _favoriteDogs.asStateFlow()
+    private val _favoriteDogs: Channel<FavoriteUiState> =
+        Channel()
+    val favoriteDogs: Flow<FavoriteUiState>
+        get() = _favoriteDogs.receiveAsFlow()
 
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
@@ -31,28 +32,28 @@ class FavoriteViewModel @Inject constructor(
             _effect.send(Effect.IsLoading(true))
             dogRepository.getUserDogs().fold(
                 onSuccess = {
-                    _favoriteDogs.update { state ->
-                        state.copy(
+                    _favoriteDogs.send(
+                        FavoriteUiState(
                             dogs = it,
                             error = null
                         )
-                    }
+                    )
                 },
                 onError = { _, _ ->
-                    _favoriteDogs.update { state ->
-                        state.copy(
-                            dogs = emptyList(),
+                    _favoriteDogs.send(
+                        FavoriteUiState(
+                            dogs = null,
                             error = R.string.error_unknown
                         )
-                    }
+                    )
                 },
                 onException = {
-                    _favoriteDogs.update { state ->
-                        state.copy(
-                            dogs = emptyList(),
+                    _favoriteDogs.send(
+                        FavoriteUiState(
+                            dogs = null,
                             error = R.string.error_connectivity
                         )
-                    }
+                    )
                 }
             )
             _effect.send(Effect.IsLoading(false))
