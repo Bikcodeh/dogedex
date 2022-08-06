@@ -11,10 +11,9 @@ import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,9 +23,9 @@ class DogListViewModel @Inject constructor(
     private val dataStoreOperations: DataStoreOperations
 ) : ViewModel() {
 
-    private val _dogsUiState: Channel<DogsUiState> = Channel()
-    val dogsUiState: Flow<DogsUiState>
-        get() = _dogsUiState.consumeAsFlow()
+    private val _dogsUiState: MutableSharedFlow<DogsUiState> = MutableSharedFlow(replay = 1)
+    val dogsUiState: SharedFlow<DogsUiState>
+        get() = _dogsUiState.asSharedFlow()
 
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
@@ -41,13 +40,13 @@ class DogListViewModel @Inject constructor(
             dogRepository.downloadDogs()
                 .fold(
                     onSuccess = {
-                        _dogsUiState.send(DogsUiState(dogs = it, error = null))
+                        _dogsUiState.emit(DogsUiState(dogs = it, error = null))
                     },
                     onError = { _, _ ->
-                        _dogsUiState.send(DogsUiState(dogs = null, error = R.string.error_unknown))
+                        _dogsUiState.emit(DogsUiState(dogs = null, error = R.string.error_unknown))
                     },
                     onException = {
-                        _dogsUiState.send(
+                        _dogsUiState.emit(
                             DogsUiState(
                                 dogs = null,
                                 error = R.string.error_connectivity

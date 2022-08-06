@@ -104,7 +104,6 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun setUpObservers() {
         observeFlows { scope ->
-
             scope.launch {
                 dogViewModel.dogsUiState.collect { state ->
                     state.error?.let {
@@ -123,9 +122,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                         DogListViewModel.Effect.ShowLoading -> binding.loadingPb.show()
                         is DogListViewModel.Effect.NavigateToDetail -> {}
                         is DogListViewModel.Effect.ShowSnackBar -> binding.root.snack(
-                            getString(
-                                state.resId
-                            )
+                            getString(state.resId)
                         )
                         is DogListViewModel.Effect.IsLoadingDogs -> handleViewOnLoading(state.isLoading)
                     }
@@ -139,9 +136,9 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             resId?.let {
                 dogListRv.hide()
                 viewEmptyDogs.root.hide()
+                scanDogBtn.hide()
                 viewErrorDogs.root.show()
                 viewErrorDogs.errorTextTv.text = getString(it)
-                scanDogBtn.hide()
             } ?: run {
                 binding.viewErrorDogs.root.hide()
             }
