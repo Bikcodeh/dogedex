@@ -106,11 +106,13 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         observeFlows { scope ->
             scope.launch {
                 dogViewModel.dogsUiState.collect { state ->
-                    state.error?.let {
-                        handleViewsOnError(it)
-                    }
                     state.dogs?.let {
                         handleViewOnSuccess(it)
+                    }
+                    state.error?.let {
+                        handleViewsOnError(it)
+                    } ?: run {
+                        binding.viewErrorDogs.root.hide()
                     }
                 }
             }
@@ -135,8 +137,6 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         with(binding) {
             resId?.let {
                 dogListRv.hide()
-                viewEmptyDogs.root.hide()
-                scanDogBtn.hide()
                 viewErrorDogs.root.show()
                 viewErrorDogs.errorTextTv.text = getString(it)
             } ?: run {
@@ -148,24 +148,20 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun handleViewOnLoading(isLoading: Boolean) {
         with(binding) {
             if (isLoading) {
-                dogListRv.hide()
-                viewErrorDogs.root.hide()
-                viewEmptyDogs.root.hide()
-                scanDogBtn.hide()
-                loadingPb.show()
+                viewLoadingDogs.root.show()
+                viewLoadingDogs.root.elevation = 10f
             } else {
-                loadingPb.hide()
+                viewLoadingDogs.root.hide()
             }
         }
     }
 
     private fun handleViewOnSuccess(dogs: List<Dog>) {
         with(binding) {
-            scanDogBtn.show()
             if (dogs.isNotEmpty()) {
+                scanDogBtn.show()
                 dogListRv.show()
                 dogAdapter.submitList(dogs)
-                viewEmptyDogs.root.hide()
             } else {
                 binding.dogListRv.hide()
                 binding.viewEmptyDogs.root.show()

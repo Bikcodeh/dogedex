@@ -11,7 +11,6 @@ import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,9 +22,9 @@ class DogListViewModel @Inject constructor(
     private val dataStoreOperations: DataStoreOperations
 ) : ViewModel() {
 
-    private val _dogsUiState: MutableSharedFlow<DogsUiState> = MutableSharedFlow(replay = 1)
-    val dogsUiState: SharedFlow<DogsUiState>
-        get() = _dogsUiState.asSharedFlow()
+    private val _dogsUiState: MutableStateFlow<DogsUiState> = MutableStateFlow(DogsUiState())
+    val dogsUiState: StateFlow<DogsUiState>
+        get() = _dogsUiState.asStateFlow()
 
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
@@ -40,18 +39,23 @@ class DogListViewModel @Inject constructor(
             dogRepository.downloadDogs()
                 .fold(
                     onSuccess = {
-                        _dogsUiState.emit(DogsUiState(dogs = it, error = null))
+                        _dogsUiState.update { state -> state.copy(dogs = it, error = null) }
                     },
                     onError = { _, _ ->
-                        _dogsUiState.emit(DogsUiState(dogs = null, error = R.string.error_unknown))
+                        _dogsUiState.update { state ->
+                            state.copy(
+                                dogs = null,
+                                error = R.string.error_unknown
+                            )
+                        }
                     },
                     onException = {
-                        _dogsUiState.emit(
-                            DogsUiState(
+                        _dogsUiState.update { state ->
+                            state.copy(
                                 dogs = null,
                                 error = R.string.error_connectivity
                             )
-                        )
+                        }
                     }
                 )
             setEffect(Effect.IsLoadingDogs(false))

@@ -22,6 +22,11 @@
         android:layout_height="match_parent">
 
         <include
+            android:id="@+id/viewLoadingDogs"
+            layout="@layout/view_loading"
+            android:visibility="gone" />
+
+        <include
             android:id="@+id/viewErrorDogs"
             layout="@layout/view_error"
             android:visibility="gone"
@@ -78,6 +83,7 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_camera" />
+        android:src="@drawable/ic_camera"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
