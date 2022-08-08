@@ -16,7 +16,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentScanDogBinding
-import com.bikcodeh.dogrecognizer.ml.Classifier
+import com.bikcodeh.dogrecognizer.core.ml.Classifier
 import com.bikcodeh.dogrecognizer.presentation.util.extension.hide
 import com.bikcodeh.dogrecognizer.presentation.util.extension.observeFlows
 import com.bikcodeh.dogrecognizer.presentation.util.extension.show

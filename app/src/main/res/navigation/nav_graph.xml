@@ -34,7 +34,7 @@
         tools:layout="@layout/fragment_dog_detail">
         <argument
             android:name="itemDog"
-            app:argType="com.bikcodeh.dogrecognizer.domain.model.Dog" />
+            app:argType="com.bikcodeh.dogrecognizer.core.model.Dog" />
     </fragment>
 
     <fragment

@@ -3,8 +3,8 @@ package com.bikcodeh.dogrecognizer.presentation.favorite
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.R
-import com.bikcodeh.dogrecognizer.domain.common.fold
-import com.bikcodeh.dogrecognizer.domain.model.Dog
+import com.bikcodeh.dogrecognizer.core.common.fold
+import com.bikcodeh.dogrecognizer.core.model.Dog
 import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

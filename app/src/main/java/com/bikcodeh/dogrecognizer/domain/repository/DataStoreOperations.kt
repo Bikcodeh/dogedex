@@ -1,6 +1,6 @@
 package com.bikcodeh.dogrecognizer.domain.repository
 
-import com.bikcodeh.dogrecognizer.domain.model.User
+import com.bikcodeh.dogrecognizer.core.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreOperations {

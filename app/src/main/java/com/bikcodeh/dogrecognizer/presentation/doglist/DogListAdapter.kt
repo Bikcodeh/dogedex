@@ -2,7 +2,6 @@ package com.bikcodeh.dogrecognizer.presentation.doglist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +9,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.ItemDogBinding
-import com.bikcodeh.dogrecognizer.domain.model.Dog
+import com.bikcodeh.dogrecognizer.core.model.Dog
 
 class DogListAdapter(
     private val onItemClick: (Dog) -> Unit,

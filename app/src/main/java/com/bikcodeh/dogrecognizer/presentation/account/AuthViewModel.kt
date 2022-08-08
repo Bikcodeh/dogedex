@@ -7,11 +7,13 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.R
-import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
-import com.bikcodeh.dogrecognizer.domain.model.User
-import com.bikcodeh.dogrecognizer.domain.common.Error
-import com.bikcodeh.dogrecognizer.domain.common.fold
-import com.bikcodeh.dogrecognizer.domain.common.toError
+import com.bikcodeh.dogrecognizer.core.common.fold
+import com.bikcodeh.dogrecognizer.core.common.toError
+import com.bikcodeh.dogrecognizer.core.common.Error.Server
+import com.bikcodeh.dogrecognizer.core.common.Error.Connectivity
+import com.bikcodeh.dogrecognizer.core.common.Error.Unknown
+import com.bikcodeh.dogrecognizer.core.model.User
+import com.bikcodeh.dogrecognizer.core.remote.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.domain.repository.AuthRepository
 import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -148,7 +150,7 @@ class AuthViewModel @Inject constructor(
                         }
                     }, onException = {
                         when (it.toError()) {
-                            Error.Connectivity -> {
+                            Connectivity -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -158,7 +160,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Error.Server -> {
+                            is Server -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -168,7 +170,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Error.Unknown -> {
+                            is Unknown -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -219,7 +221,7 @@ class AuthViewModel @Inject constructor(
                         }
                     }, onException = {
                         when (val error = it.toError()) {
-                            Error.Connectivity -> {
+                            Connectivity -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -229,7 +231,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Error.Server -> {
+                            is Server -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -239,7 +241,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Error.Unknown -> {
+                            is Unknown -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,

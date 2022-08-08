@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DogRecognizer</string>
+    <string name="female">Female</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="group">Group</string>
+    <string name="male">Male</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="do_not_have_an_account">Do no have an account?</string>
+    <string name="register">Sign up</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="login_title">Login</string>
+    <string name="signup_title">Sign up</string>
+    <string name="email_required">Email required</string>
+    <string name="required">Required</string>
+    <string name="email_not_valid">Email is not valid</string>
+    <string name="password_not_match">Password is not the same</string>
+    <string name="error_connectivity">A connection error occurred.</string>
+    <string name="error_server">Internal server error.</string>
+    <string name="error_unknown">An unexpected error occurred.</string>
+    <string name="loading">Loading…</string>
+    <string name="invalid_login">Email/password invalid</string>
+    <string name="dogedex">Dogedex</string>
+    <string name="logout">Log out</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout_description">Do you want to terminate your session?</string>
+    <string name="added">Dog added.</string>
+    <string name="error_adding_dog">An error occurred adding the dog.</string>
+    <string name="all_dogs">Dogs</string>
+    <string name="favorite_dogs">Favorite</string>
+    <string name="empty_favorite">Ups! You don\'t have favorite dogs yet.</string>
+    <string name="permission_required_description">If you want to take some picture, the app cannot work without camera permission.</string>
+    <string name="try_again">Try again</string>
+    <string name="empty_dogs">Ups! There aren\'t dogs available</string>
+    <string name="error_taking_photo">An error occurred while taking photo, please try again.</string>
+    <string name="ok">OK</string>
+    <string name="take_again">Try again</string>
+</resources>

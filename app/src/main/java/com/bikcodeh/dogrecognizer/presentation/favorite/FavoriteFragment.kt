@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bikcodeh.dogrecognizer.databinding.FragmentFavoriteBinding
-import com.bikcodeh.dogrecognizer.domain.model.Dog
+import com.bikcodeh.dogrecognizer.core.model.Dog
 import com.bikcodeh.dogrecognizer.presentation.util.extension.hide
 import com.bikcodeh.dogrecognizer.presentation.util.extension.observeFlows
 import com.bikcodeh.dogrecognizer.presentation.util.extension.show

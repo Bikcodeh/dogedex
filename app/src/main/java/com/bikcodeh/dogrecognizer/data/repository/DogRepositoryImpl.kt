@@ -1,13 +1,13 @@
 package com.bikcodeh.dogrecognizer.data.repository
 
-import com.bikcodeh.dogrecognizer.data.remote.DogApiService
-import com.bikcodeh.dogrecognizer.data.remote.dto.DefaultResponse
-import com.bikcodeh.dogrecognizer.data.remote.dto.DogApiResponse
-import com.bikcodeh.dogrecognizer.data.remote.dto.user.AddDogToUserDTO
-import com.bikcodeh.dogrecognizer.domain.model.Dog
-import com.bikcodeh.dogrecognizer.domain.common.Result
-import com.bikcodeh.dogrecognizer.domain.common.fold
-import com.bikcodeh.dogrecognizer.domain.common.makeSafeRequest
+import com.bikcodeh.dogrecognizer.core.remote.DogApiService
+import com.bikcodeh.dogrecognizer.core.remote.dto.DefaultResponse
+import com.bikcodeh.dogrecognizer.core.remote.dto.DogApiResponse
+import com.bikcodeh.dogrecognizer.core.remote.dto.user.AddDogToUserDTO
+import com.bikcodeh.dogrecognizer.core.model.Dog
+import com.bikcodeh.dogrecognizer.core.common.Result
+import com.bikcodeh.dogrecognizer.core.common.fold
+import com.bikcodeh.dogrecognizer.core.common.makeSafeRequest
 import com.bikcodeh.dogrecognizer.domain.repository.DogRepository
 import javax.inject.Inject
 

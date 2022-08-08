@@ -10,8 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bikcodeh.dogrecognizer.MainActivity
-import com.bikcodeh.dogrecognizer.R
-import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
+import com.bikcodeh.dogrecognizer.core.remote.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.databinding.ActivitySplashBinding
 import com.bikcodeh.dogrecognizer.presentation.account.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint

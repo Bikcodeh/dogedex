@@ -7,14 +7,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.bikcodeh.dogrecognizer.domain.model.User
+import com.bikcodeh.dogrecognizer.core.model.User
 import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.PREFERENCES_NAME
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_EMAIL_PREFERENCES_KEY
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_ID_PREFERENCES_KEY
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_TOKEN_PREFERENCES_KEY
 import com.bikcodeh.dogrecognizer.presentation.util.extension.toSafeLong
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogsBinding
-import com.bikcodeh.dogrecognizer.domain.model.Dog
+import com.bikcodeh.dogrecognizer.core.model.Dog
 import com.bikcodeh.dogrecognizer.presentation.account.login.LoginActivity
 import com.bikcodeh.dogrecognizer.presentation.util.Constants
 import com.bikcodeh.dogrecognizer.presentation.util.Permissions.hasCameraPermission
