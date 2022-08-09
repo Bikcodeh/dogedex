@@ -46,6 +46,7 @@ kapt {
 dependencies {
 
     implementation project(path: ':core')
+    implementation project(path: ':auth')
     implementation project(path: ':favorite')
 
     /** Dagger hilt */

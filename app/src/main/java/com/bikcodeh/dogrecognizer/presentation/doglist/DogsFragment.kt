@@ -1,6 +1,5 @@
 package com.bikcodeh.dogrecognizer.presentation.doglist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bikcodeh.dogrecognizer.R
 import com.bikcodeh.dogrecognizer.core.model.Dog
+import com.bikcodeh.dogrecognizer.core.util.extension.launchSafeActivity
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogsBinding
-import com.bikcodeh.dogrecognizer.presentation.account.login.LoginActivity
 import com.bikcodeh.dogrecognizer.presentation.util.Constants
 import com.bikcodeh.dogrecognizer.presentation.util.Permissions.hasCameraPermission
 import com.bikcodeh.dogrecognizer.presentation.util.Permissions.requestCameraPermission
@@ -189,10 +188,11 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun logOut() {
         dogViewModel.logOut()
-        Intent(activity, LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(this)
-        }
+        launchSafeActivity(
+            "com.bikcodeh.dogrecognizer.auth.authpresentation.ui.AuthActivity",
+            clear = true
+        )
+        activity?.finish()
     }
 
     private fun navigateToDetail(dog: Dog) {

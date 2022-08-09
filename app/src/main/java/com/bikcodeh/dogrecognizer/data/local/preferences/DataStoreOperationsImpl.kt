@@ -1,15 +1,13 @@
 package com.bikcodeh.dogrecognizer.data.local.preferences
 
 import android.content.Context
-import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.bikcodeh.dogrecognizer.core.model.User
+import com.bikcodeh.dogrecognizer.core.util.extension.dataStore
 import com.bikcodeh.dogrecognizer.domain.repository.DataStoreOperations
-import com.bikcodeh.dogrecognizer.presentation.util.Constants.PREFERENCES_NAME
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_EMAIL_PREFERENCES_KEY
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_ID_PREFERENCES_KEY
 import com.bikcodeh.dogrecognizer.presentation.util.Constants.USER_TOKEN_PREFERENCES_KEY
@@ -20,8 +18,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
-
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCES_NAME)
 
 class DataStoreOperationsImpl @Inject constructor(
     @ApplicationContext context: Context

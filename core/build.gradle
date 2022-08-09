@@ -28,6 +28,8 @@ dependencies {
     api 'androidx.constraintlayout:constraintlayout:2.1.4'
     api 'androidx.navigation:navigation-fragment-ktx:2.5.0'
     api 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    /** Data store */
+    api "androidx.datastore:datastore-preferences:1.0.0"
     /** Coil */
     api "io.coil-kt:coil:2.1.0"
     /** Lottie */
