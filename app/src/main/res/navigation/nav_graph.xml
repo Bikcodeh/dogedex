@@ -38,16 +38,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.bikcodeh.dogrecognizer.presentation.favorite.FavoriteFragment"
-        android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
-
-    <fragment
         android:id="@+id/scanDogFragment"
         android:name="com.bikcodeh.dogrecognizer.presentation.doglist.ScanDogFragment"
         android:label="fragment_scan_dog"
-        tools:layout="@layout/fragment_scan_dog" >
+        tools:layout="@layout/fragment_scan_dog">
         <action
             android:id="@+id/action_scanDogFragment_to_dogDetailFragment"
             app:destination="@id/dogDetailFragment"
@@ -56,5 +50,7 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
+    <include app:graph="@navigation/favorite_nav_graph" />
 
 </navigation>

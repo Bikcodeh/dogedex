@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/dogsFragment"
+        android:id="@+id/nav_graph"
         android:title="@string/all_dogs"
         android:icon="@drawable/ic_list" />
 
     <item
-        android:id="@+id/favoriteFragment"
+        android:id="@+id/navigationFavorite"
         android:title="@string/favorite_dogs"
         android:icon="@drawable/ic_favorite" />
 </menu>

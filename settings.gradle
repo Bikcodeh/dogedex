@@ -15,3 +15,7 @@ dependencyResolutionManagement {
 rootProject.name = "DogRecognizer"
 include ':app'
 include ':core'
+include ':favorite'
+include ':favorite:favoritedomain'
+include ':favorite:favoritedata'
+include ':favorite:favoritepresentation'

@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import com.bikcodeh.dogrecognizer.R
+import com.bikcodeh.dogrecognizer.core.R
 
 fun Context.getStringOrNull(@StringRes resId: Int?): String? {
     return try {

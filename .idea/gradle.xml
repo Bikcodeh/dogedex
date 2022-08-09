@@ -13,6 +13,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/favorite" />
+            <option value="$PROJECT_DIR$/favorite/favoritedata" />
+            <option value="$PROJECT_DIR$/favorite/favoritedomain" />
+            <option value="$PROJECT_DIR$/favorite/favoritepresentation" />
           </set>
         </option>
       </GradleProjectSettings>
