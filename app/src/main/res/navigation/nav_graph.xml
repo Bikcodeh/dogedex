@@ -1,43 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/dogsFragment">
+    app:startDestination="@id/dogs_nav_graph">
 
-
-    <fragment
-        android:id="@+id/dogsFragment"
-        android:name="com.bikcodeh.dogrecognizer.presentation.doglist.DogsFragment"
-        android:label="DogsFragment"
-        tools:layout="@layout/fragment_dogs">
-        <action
-            android:id="@+id/action_dogsFragment_to_scanDogFragment"
-            app:destination="@id/scanDogFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_dogsFragment_to_detail_nav_graph"
-            app:destination="@id/detail_nav_graph" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/scanDogFragment"
-        android:name="com.bikcodeh.dogrecognizer.presentation.doglist.ScanDogFragment"
-        android:label="fragment_scan_dog"
-        tools:layout="@layout/fragment_scan_dog">
-        <action
-            android:id="@+id/action_scanDogFragment_to_dogDetailFragment"
-            app:destination="@id/dogDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-
+    <include app:graph="@navigation/dogs_nav_graph" />
     <include app:graph="@navigation/favorite_nav_graph" />
     <include app:graph="@navigation/detail_nav_graph" />
 

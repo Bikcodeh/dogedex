@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpListeners() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                RD.id.dogDetailFragment, R.id.scanDogFragment -> {
+                RD.id.dogDetailFragment, /*R.id.scanDogFragment*/ -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }
                 else -> {

@@ -31,7 +31,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ScanDogFragment : Fragment() {
 
-    private var _binding: FragmentScanDogBinding? = null
+    /*private var _binding: FragmentScanDogBinding? = null
     private val binding: FragmentScanDogBinding
         get() = _binding!!
 
@@ -87,11 +87,11 @@ class ScanDogFragment : Fragment() {
                     when (state) {
                         is DogListViewModel.Effect.NavigateToDetail -> {
                             //TODO : CHECK THIS
-                            /*val action =
+                            *//*val action =
                                 ScanDogFragmentDirections.actionScanDogFragmentToDogDetailFragment(
                                     state.dog
                                 )
-                            findNavController().navigate(action)*/
+                            findNavController().navigate(action)*//*
                         }
                         is DogListViewModel.Effect.ShowSnackBar -> binding.root.snack(
                             getString(
@@ -180,5 +180,5 @@ class ScanDogFragment : Fragment() {
                     }
                 })
         }
-    }
+    }*/
 }
