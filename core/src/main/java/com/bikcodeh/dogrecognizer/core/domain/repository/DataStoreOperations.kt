@@ -1,4 +1,4 @@
-package com.bikcodeh.dogrecognizer.domain.repository
+package com.bikcodeh.dogrecognizer.core.domain.repository
 
 import com.bikcodeh.dogrecognizer.core.model.User
 import kotlinx.coroutines.flow.Flow

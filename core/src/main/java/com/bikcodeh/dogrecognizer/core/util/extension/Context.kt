@@ -10,9 +10,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.bikcodeh.dogrecognizer.core.R
 import com.bikcodeh.dogrecognizer.core.util.Constants
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.PREFERENCES_NAME)
-
-
 fun Context.getStringOrNull(@StringRes resId: Int?): String? {
     return try {
         resId?.let { getString(it) }

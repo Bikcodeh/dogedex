@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.core.R
 import com.bikcodeh.dogrecognizer.authdomain.repository.AuthRepository
-import com.bikcodeh.dogrecognizer.authdomain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.core.common.Error.*
 import com.bikcodeh.dogrecognizer.core.common.fold
 import com.bikcodeh.dogrecognizer.core.common.toError
+import com.bikcodeh.dogrecognizer.core.domain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.core.model.User
 import com.bikcodeh.dogrecognizer.core.remote.interceptor.ApiServiceInterceptor
 import dagger.hilt.android.lifecycle.HiltViewModel

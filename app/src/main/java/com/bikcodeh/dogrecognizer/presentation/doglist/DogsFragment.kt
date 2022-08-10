@@ -189,7 +189,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun logOut() {
         dogViewModel.logOut()
         launchSafeActivity(
-            "com.bikcodeh.dogrecognizer.auth.authpresentation.ui.AuthActivity",
+            "com.bikcodeh.dogrecognizer.authpresentation.AuthActivity",
             clear = true
         )
         activity?.finish()
