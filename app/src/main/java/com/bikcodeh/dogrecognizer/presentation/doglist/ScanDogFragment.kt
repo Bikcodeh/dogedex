@@ -86,11 +86,12 @@ class ScanDogFragment : Fragment() {
                 dogViewModel.effect.collect { state ->
                     when (state) {
                         is DogListViewModel.Effect.NavigateToDetail -> {
-                            val action =
+                            //TODO : CHECK THIS
+                            /*val action =
                                 ScanDogFragmentDirections.actionScanDogFragmentToDogDetailFragment(
                                     state.dog
                                 )
-                            findNavController().navigate(action)
+                            findNavController().navigate(action)*/
                         }
                         is DogListViewModel.Effect.ShowSnackBar -> binding.root.snack(
                             getString(

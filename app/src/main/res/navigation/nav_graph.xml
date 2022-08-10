@@ -12,29 +12,16 @@
         android:label="DogsFragment"
         tools:layout="@layout/fragment_dogs">
         <action
-            android:id="@+id/action_dogsFragment_to_dogDetailFragment"
-            app:destination="@id/dogDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_dogsFragment_to_scanDogFragment"
             app:destination="@id/scanDogFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
+        <action
+            android:id="@+id/action_dogsFragment_to_detail_nav_graph"
+            app:destination="@id/detail_nav_graph" />
 
-    <fragment
-        android:id="@+id/dogDetailFragment"
-        android:name="com.bikcodeh.dogrecognizer.presentation.dogdetail.DogDetailFragment"
-        android:label="DogDetailFragment"
-        tools:layout="@layout/fragment_dog_detail">
-        <argument
-            android:name="itemDog"
-            app:argType="com.bikcodeh.dogrecognizer.core.model.Dog" />
     </fragment>
 
     <fragment
@@ -52,5 +39,6 @@
     </fragment>
 
     <include app:graph="@navigation/favorite_nav_graph" />
+    <include app:graph="@navigation/detail_nav_graph" />
 
 </navigation>

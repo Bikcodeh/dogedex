@@ -12,7 +12,7 @@
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/activity_splash.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/content_main.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/dialog_loading.xml" value="0.25" />
-        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/fragment_dog_detail.xml" value="0.33645833333333336" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/fragment_dog_detail.xml" value="0.1" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/fragment_dogs.xml" value="0.33" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/fragment_favorite.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/app/src/main/res/layout/fragment_login_page.xml" value="0.35052083333333334" />
@@ -33,9 +33,16 @@
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/auth/authpresentation/src/main/res/layout/item.xml" value="0.3494791666666667" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/auth/src/main/res/layout/fragment_login_page.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/auth/src/main/res/layout/item.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/core/src/main/res/drawable/item.xml" value="0.2665" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/core/src/main/res/layout/dialog_loading.xml" value="0.24259259259259258" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/core/src/main/res/layout/view_error.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/core/src/main/res/layout/view_loading.xml" value="0.24259259259259258" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/detail/src/main/res/drawable/detail.xml" value="0.2665" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/detail/src/main/res/drawable/detail_info_background.xml" value="0.2665" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/detail/src/main/res/drawable/ic_check_black.xml" value="0.2665" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/detail/src/main/res/drawable/progressbar_background.xml" value="0.2665" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/detail/src/main/res/drawable/red_circle.xml" value="0.2665" />
+        <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/detail/src/main/res/layout/fragment_dog_detail.xml" value="0.25" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/favorite/favoritepresentation/src/main/res/layout/fragment_favorite.xml" value="0.2428174235403151" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/favorite/favoritepresentation/src/main/res/layout/item_favorite_dog.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/victo/AndroidStudioProjects/DogRecognizer/favorite/favoritepresentation/src/main/res/layout/view_empty_favorites.xml" value="0.35052083333333334" />

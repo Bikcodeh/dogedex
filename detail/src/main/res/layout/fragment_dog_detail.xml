@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="dog"
             type="com.bikcodeh.dogrecognizer.core.model.Dog" />

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bikcodeh.dogrecognizer.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.bikcodeh.dogrecognizer.detail.R as RD
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpListeners() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.dogDetailFragment, R.id.scanDogFragment -> {
+                RD.id.dogDetailFragment, R.id.scanDogFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }
                 else -> {

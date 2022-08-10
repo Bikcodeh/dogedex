@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bikcodeh.dogrecognizer.R
@@ -17,10 +20,13 @@ import com.bikcodeh.dogrecognizer.core.util.Permissions.hasCameraPermission
 import com.bikcodeh.dogrecognizer.core.util.Permissions.requestCameraPermission
 import com.bikcodeh.dogrecognizer.core.util.extension.*
 import com.bikcodeh.dogrecognizer.databinding.FragmentDogsBinding
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.bikcodeh.dogrecognizer.core.R as RC
 
 private const val GRID_SPAN_COUNT = 3
 private const val TOTAL_REQUIRED_PERMISSIONS_COUNT = 3
@@ -192,8 +198,24 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun navigateToDetail(dog: Dog) {
-        val action = DogsFragmentDirections.actionDogsFragmentToDogDetailFragment(dog)
-        findNavController().navigate(action)
+        val moshi = Moshi.Builder().build()
+        val jsonAdapter: JsonAdapter<Dog> = moshi.adapter(Dog::class.java)
+        val itemDog = dog.copy()
+        itemDog.imageUrl = itemDog.imageUrl.encode()
+        val jsonDog = jsonAdapter.toJson(itemDog)
+        val request =
+            NavDeepLinkRequest.Builder.fromUri(
+                "android-app://DogDetailFragment/${jsonDog.encode()}".toUri()
+            ).build()
+        findNavController().navigate(
+            request,
+            NavOptions.Builder()
+                .setEnterAnim(RC.anim.from_right)
+                .setExitAnim(RC.anim.to_left)
+                .setPopEnterAnim(RC.anim.from_left)
+                .setPopExitAnim(RC.anim.to_right)
+                .build()
+        )
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {

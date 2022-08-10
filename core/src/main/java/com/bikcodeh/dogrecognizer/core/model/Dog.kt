@@ -11,7 +11,7 @@ data class Dog(
     val type: String,
     val heightFemale: String,
     val heightMale: String,
-    val imageUrl: String,
+    var imageUrl: String,
     val lifeExpectancy: String,
     val temperament: String,
     val weightFemale: String,
