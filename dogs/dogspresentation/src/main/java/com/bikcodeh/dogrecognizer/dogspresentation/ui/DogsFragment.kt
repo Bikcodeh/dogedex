@@ -10,13 +10,13 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bikcodeh.dogrecognizer.core.model.Dog
 import com.bikcodeh.dogrecognizer.core.util.Constants
 import com.bikcodeh.dogrecognizer.core.util.Permissions.hasCameraPermission
 import com.bikcodeh.dogrecognizer.core.util.Permissions.requestCameraPermission
+import com.bikcodeh.dogrecognizer.core.util.Util
 import com.bikcodeh.dogrecognizer.core.util.extension.*
 import com.bikcodeh.dogrecognizer.dogspresentation.R
 import com.bikcodeh.dogrecognizer.dogspresentation.databinding.FragmentDogsBinding
@@ -181,7 +181,10 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         binding.scanDogBtn.setOnClickListener {
             if (hasCameraPermission(requireContext())) {
-                //findNavController().navigate(R.id.action_dogsFragment_to_scanDogFragment)
+                val request =
+                    NavDeepLinkRequest.Builder.fromUri("android-app://ScanDogFragment".toUri())
+                        .build()
+                findNavController().navigate(request, Util.setDefaultTransitionAnimation())
             } else {
                 requestCameraPermission(this)
             }
@@ -207,15 +210,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             NavDeepLinkRequest.Builder.fromUri(
                 "android-app://DogDetailFragment/${jsonDog.encode()}".toUri()
             ).build()
-        findNavController().navigate(
-            request,
-            NavOptions.Builder()
-                .setEnterAnim(RC.anim.from_right)
-                .setExitAnim(RC.anim.to_left)
-                .setPopEnterAnim(RC.anim.from_left)
-                .setPopExitAnim(RC.anim.to_right)
-                .build()
-        )
+        findNavController().navigate(request, Util.setDefaultTransitionAnimation())
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
@@ -231,8 +226,9 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         if (requestCode == Constants.PERMISSION_CAMERA_REQUEST_CODE
             && perms.count() == TOTAL_REQUIRED_PERMISSIONS_COUNT
         ) {
-            //TODO: CHECK THIS
-            //findNavController().navigate(R.id.action_dogsFragment_to_scanDogFragment)
+            val request =
+                NavDeepLinkRequest.Builder.fromUri("android-app://ScanDogFragment".toUri()).build()
+            findNavController().navigate(request)
         }
     }
 

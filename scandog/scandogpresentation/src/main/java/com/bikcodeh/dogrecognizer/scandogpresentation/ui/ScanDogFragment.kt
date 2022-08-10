@@ -1,4 +1,4 @@
-package com.bikcodeh.dogrecognizer.presentation.doglist
+package com.bikcodeh.dogrecognizer.scandogpresentation.ui
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -10,28 +10,32 @@ import android.view.ViewGroup
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
-import com.bikcodeh.dogrecognizer.R
-import com.bikcodeh.dogrecognizer.databinding.FragmentScanDogBinding
 import com.bikcodeh.dogrecognizer.core.ml.Classifier
-import com.bikcodeh.dogrecognizer.core.util.extension.hide
-import com.bikcodeh.dogrecognizer.core.util.extension.observeFlows
-import com.bikcodeh.dogrecognizer.core.util.extension.show
-import com.bikcodeh.dogrecognizer.core.util.extension.snack
+import com.bikcodeh.dogrecognizer.core.model.Dog
+import com.bikcodeh.dogrecognizer.core.util.Util
+import com.bikcodeh.dogrecognizer.core.util.extension.*
+import com.bikcodeh.dogrecognizer.scandogpresentation.databinding.FragmentScanDogBinding
+import com.bikcodeh.dogrecognizer.scandogpresentation.ui.state.Effect
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
+import com.bikcodeh.dogrecognizer.core.R as RC
 
 @AndroidEntryPoint
 class ScanDogFragment : Fragment() {
 
-    /*private var _binding: FragmentScanDogBinding? = null
+    private var _binding: FragmentScanDogBinding? = null
     private val binding: FragmentScanDogBinding
         get() = _binding!!
 
@@ -42,7 +46,7 @@ class ScanDogFragment : Fragment() {
     @Inject
     lateinit var classifier: Classifier
 
-    private val dogViewModel: DogListViewModel by viewModels()
+    private val scanDogViewModel: ScanDogViewModel by viewModels()
     private lateinit var safeContext: Context
 
     override fun onCreateView(
@@ -83,24 +87,35 @@ class ScanDogFragment : Fragment() {
         observeFlows { scope ->
 
             scope.launch {
-                dogViewModel.effect.collect { state ->
+                scanDogViewModel.effect.collect { state ->
                     when (state) {
-                        is DogListViewModel.Effect.NavigateToDetail -> {
-                            //TODO : CHECK THIS
-                            *//*val action =
-                                ScanDogFragmentDirections.actionScanDogFragmentToDogDetailFragment(
-                                    state.dog
-                                )
-                            findNavController().navigate(action)*//*
+                        is Effect.NavigateToDetail -> {
+                            val moshi = Moshi.Builder().build()
+                            val jsonAdapter: JsonAdapter<Dog> = moshi.adapter(Dog::class.java)
+                            val itemDog = state.dog.copy()
+                            itemDog.imageUrl = itemDog.imageUrl.encode()
+                            val jsonDog = jsonAdapter.toJson(itemDog)
+                            val request =
+                                NavDeepLinkRequest.Builder.fromUri(
+                                    "android-app://DogDetailFragment/${jsonDog.encode()}".toUri()
+                                ).build()
+                            findNavController().navigate(
+                                request,
+                                Util.setDefaultTransitionAnimation()
+                            )
                         }
-                        is DogListViewModel.Effect.ShowSnackBar -> binding.root.snack(
+                        is Effect.ShowSnackBar -> binding.root.snack(
                             getString(
                                 state.resId
                             )
                         )
-                        DogListViewModel.Effect.HideLoading -> binding.loadingScanDogPb.hide()
-                        DogListViewModel.Effect.ShowLoading -> binding.loadingScanDogPb.show()
-                        is DogListViewModel.Effect.IsLoadingDogs -> {}
+                        is Effect.IsLoading -> {
+                            if (state.loading) {
+                                binding.loadingScanDogPb.show()
+                            } else {
+                                binding.loadingScanDogPb.hide()
+                            }
+                        }
                     }
                 }
             }
@@ -137,17 +152,17 @@ class ScanDogFragment : Fragment() {
                     )
                     preview?.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
                 } catch (exc: Exception) {
-                    Log.e(DogsFragment::class.java.name, "Use case binding failed", exc)
+                    Log.e(this::class.java.name, "Use case binding failed", exc)
                 }
             }, ContextCompat.getMainExecutor(safeContext))
         } catch (e: Exception) {
-            Log.e(DogsFragment::class.java.name, "FAIL ${e.message}")
+            Log.e(this::class.java.name, "FAIL ${e.message}")
         }
     }
 
     private fun getOutputPhotoFile(): File? {
         val mediaDir = activity?.externalMediaDirs?.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name) + ".jpg").apply { mkdirs() }
+            File(it, resources.getString(RC.string.app_name) + ".jpg").apply { mkdirs() }
         }
 
         return if (mediaDir != null && mediaDir.exists()) {
@@ -172,13 +187,13 @@ class ScanDogFragment : Fragment() {
                         val dogRecognition = classifier.recognizeImage(bitmap).first()
 
                         classifier.recognizeImage(bitmap)
-                        dogViewModel.recognizeDogById(dogRecognition.id)
+                        scanDogViewModel.recognizeDogById(dogRecognition.id)
                     }
 
                     override fun onError(exception: ImageCaptureException) {
-                        binding.root.snack(getString(R.string.error_taking_photo))
+                        binding.root.snack(getString(RC.string.error_taking_photo))
                     }
                 })
         }
-    }*/
+    }
 }

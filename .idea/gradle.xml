@@ -26,6 +26,10 @@
             <option value="$PROJECT_DIR$/favorite/favoritedata" />
             <option value="$PROJECT_DIR$/favorite/favoritedomain" />
             <option value="$PROJECT_DIR$/favorite/favoritepresentation" />
+            <option value="$PROJECT_DIR$/scandog" />
+            <option value="$PROJECT_DIR$/scandog/scandogdata" />
+            <option value="$PROJECT_DIR$/scandog/scandogdomain" />
+            <option value="$PROJECT_DIR$/scandog/scandogpresentation" />
           </set>
         </option>
       </GradleProjectSettings>

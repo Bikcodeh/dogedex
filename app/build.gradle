@@ -1,10 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
-    id 'kotlin-parcelize'
-    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -35,30 +33,18 @@ android {
     }
     buildFeatures {
         viewBinding true
-        dataBinding true
     }
 }
 
-kapt {
-    correctErrorTypes true
-}
-
 dependencies {
-
     implementation project(path: ':core')
     implementation project(path: ':auth')
     implementation project(path: ':dogs')
     implementation project(path: ':favorite')
     implementation project(path: ':detail')
+    implementation project(path: ':scandog')
 
     /** Dagger hilt */
     implementation 'com.google.dagger:hilt-android:2.43'
     kapt 'com.google.dagger:hilt-compiler:2.43'
-    /** Data store */
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
-    /** Camera x */
-    def camerax_version = "1.2.0-alpha03"
-    implementation "androidx.camera:camera-camera2:${camerax_version}"
-    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
-    implementation "androidx.camera:camera-view:${camerax_version}"
 }
