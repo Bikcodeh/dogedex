@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.bikcodeh.dogrecognizer.core.model.Dog
+import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.favoritepresentation.databinding.ItemFavoriteDogBinding
 
 class FavoriteAdapter : ListAdapter<Dog, FavoriteAdapter.FavoriteViewHolder>(FavoriteDiffUtil()) {

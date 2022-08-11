@@ -4,8 +4,9 @@ import android.Manifest
 import android.content.Context
 import androidx.fragment.app.Fragment
 import com.bikcodeh.dogrecognizer.core.R
-import com.bikcodeh.dogrecognizer.core.util.Constants.PERMISSION_CAMERA_REQUEST_CODE
 import com.vmadalin.easypermissions.EasyPermissions
+
+private const val PERMISSION_CAMERA_REQUEST_CODE = 2
 
 object Permissions {
 

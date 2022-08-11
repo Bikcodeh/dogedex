@@ -4,11 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.bikcodeh.dogrecognizer.core.R
-import com.bikcodeh.dogrecognizer.core.util.Constants
 
 fun Context.getStringOrNull(@StringRes resId: Int?): String? {
     return try {

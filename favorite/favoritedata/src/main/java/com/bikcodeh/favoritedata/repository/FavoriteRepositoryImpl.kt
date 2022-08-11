@@ -1,10 +1,10 @@
 package com.bikcodeh.favoritedata.repository
 
-import com.bikcodeh.dogrecognizer.core.common.fold
-import com.bikcodeh.dogrecognizer.core.common.makeSafeRequest
-import com.bikcodeh.dogrecognizer.core.model.Dog
-import com.bikcodeh.dogrecognizer.core.common.Result
-import com.bikcodeh.dogrecognizer.core.remote.DogApiService
+import com.bikcodeh.dogrecognizer.core_common.makeSafeRequest
+import com.bikcodeh.dogrecognizer.core_common.Result
+import com.bikcodeh.dogrecognizer.core_common.fold
+import com.bikcodeh.dogrecognizer.core_model.Dog
+import com.bikcodeh.dogrecognizer.core_network.retrofit.service.DogApiService
 import com.bikcodeh.favoritedomain.repository.FavoriteRepository
 import javax.inject.Inject
 

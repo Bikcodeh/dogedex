@@ -1,13 +1,13 @@
 package com.bikcodeh.dogrecognizer.authdata.repository
 
 import com.bikcodeh.dogrecognizer.authdomain.repository.AuthRepository
-import com.bikcodeh.dogrecognizer.core.remote.DogApiService
-import com.bikcodeh.dogrecognizer.core.remote.dto.auth.LogInDTO
-import com.bikcodeh.dogrecognizer.core.remote.dto.auth.SignUpDTO
-import com.bikcodeh.dogrecognizer.core.model.User
-import com.bikcodeh.dogrecognizer.core.common.Result
-import com.bikcodeh.dogrecognizer.core.common.fold
-import com.bikcodeh.dogrecognizer.core.common.makeSafeRequest
+import com.bikcodeh.dogrecognizer.core_common.makeSafeRequest
+import com.bikcodeh.dogrecognizer.core_common.Result
+import com.bikcodeh.dogrecognizer.core_common.fold
+import com.bikcodeh.dogrecognizer.core_model.User
+import com.bikcodeh.dogrecognizer.core_model.dto.LogInDTO
+import com.bikcodeh.dogrecognizer.core_model.dto.SignUpDTO
+import com.bikcodeh.dogrecognizer.core_network.retrofit.service.DogApiService
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody

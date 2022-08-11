@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.bikcodeh.dogrecognizer.core.model.Dog
-import com.bikcodeh.dogrecognizer.core.R as RC
+import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.dogrecognizer.dogspresentation.databinding.ItemDogBinding
+import com.bikcodeh.dogrecognizer.core.R as RC
 
 class DogListAdapter(
     private val onItemClick: (Dog) -> Unit,

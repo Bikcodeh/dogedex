@@ -31,9 +31,16 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes true
+}
+
 dependencies {
-    implementation project(path: ':core')
+    implementation project(path: ':core-network')
+    implementation project(path: ':core-common')
+    implementation project(path: ':core-model')
     implementation project(path: ':dogs:dogsdomain')
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
 
     /** Dagger hilt */
     implementation 'com.google.dagger:hilt-android:2.43'

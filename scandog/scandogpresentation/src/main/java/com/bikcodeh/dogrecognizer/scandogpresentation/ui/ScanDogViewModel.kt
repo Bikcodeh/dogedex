@@ -3,7 +3,7 @@ package com.bikcodeh.dogrecognizer.scandogpresentation.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.core.R
-import com.bikcodeh.dogrecognizer.core.common.fold
+import com.bikcodeh.dogrecognizer.core_common.fold
 import com.bikcodeh.dogrecognizer.scandogdomain.repository.ScanDogRepository
 import com.bikcodeh.dogrecognizer.scandogpresentation.ui.state.Effect
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -16,11 +16,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
-import com.bikcodeh.dogrecognizer.core.ml.Classifier
-import com.bikcodeh.dogrecognizer.core.model.Dog
 import com.bikcodeh.dogrecognizer.core.util.Util
 import com.bikcodeh.dogrecognizer.core.util.extension.*
+import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.dogrecognizer.scandogpresentation.databinding.FragmentScanDogBinding
+import com.bikcodeh.dogrecognizer.scandogpresentation.ml.Classifier
 import com.bikcodeh.dogrecognizer.scandogpresentation.ui.state.Effect
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi

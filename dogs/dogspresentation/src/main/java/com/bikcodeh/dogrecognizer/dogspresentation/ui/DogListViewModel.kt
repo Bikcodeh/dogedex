@@ -3,11 +3,10 @@ package com.bikcodeh.dogrecognizer.dogspresentation.ui
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bikcodeh.dogrecognizer.core.common.fold
-import com.bikcodeh.dogrecognizer.core.domain.repository.DataStoreOperations
-import com.bikcodeh.dogrecognizer.core.model.Dog
-import com.bikcodeh.dogrecognizer.core.R as RC
-import com.bikcodeh.dogrecognizer.core.remote.interceptor.ApiServiceInterceptor
+import com.bikcodeh.dogrecognizer.core_common.fold
+import com.bikcodeh.dogrecognizer.core_common.interceptor.ApiServiceInterceptor
+import com.bikcodeh.dogrecognizer.core_model.Dog
+import com.bikcodeh.dogrecognizer.core_preferences.domain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.dogsdomain.repository.DogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,11 +14,13 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.bikcodeh.dogrecognizer.core.R as RC
 
 @HiltViewModel
 class DogListViewModel @Inject constructor(
     private val dogRepository: DogRepository,
-    private val dataStoreOperations: DataStoreOperations
+    private val dataStoreOperations: DataStoreOperations,
+    private val apiServiceInterceptor: ApiServiceInterceptor
 ) : ViewModel() {
 
     private val _dogsUiState: MutableStateFlow<DogsUiState> = MutableStateFlow(DogsUiState())
@@ -63,7 +64,7 @@ class DogListViewModel @Inject constructor(
     }
 
     fun logOut() {
-        ApiServiceInterceptor.clearToken()
+        apiServiceInterceptor.clearToken()
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreOperations.deleteUser()
         }
@@ -86,25 +87,6 @@ class DogListViewModel @Inject constructor(
                     },
                     onError = { _, _ ->
                         setEffect(Effect.ShowSnackBar(RC.string.error_unknown))
-                    }
-                )
-            setEffect(Effect.HideLoading)
-        }
-    }
-
-    fun recognizeDogById(id: String) {
-        setEffect(Effect.ShowLoading)
-        viewModelScope.launch(Dispatchers.IO) {
-            dogRepository.getRecognizedDog(id)
-                .fold(
-                    onSuccess = {
-                        setEffect(Effect.NavigateToDetail(it.data.dog.toDomain()))
-                    },
-                    onError = { _, _ ->
-                        setEffect(Effect.ShowSnackBar(RC.string.error_unknown))
-                    },
-                    onException = {
-                        setEffect(Effect.ShowSnackBar(RC.string.error_connectivity))
                     }
                 )
             setEffect(Effect.HideLoading)

@@ -1,13 +1,12 @@
 package com.bikcodeh.dogrecognizer.dogsdata.repository
 
-import com.bikcodeh.dogrecognizer.core.common.Result
-import com.bikcodeh.dogrecognizer.core.common.fold
-import com.bikcodeh.dogrecognizer.core.common.makeSafeRequest
-import com.bikcodeh.dogrecognizer.core.model.Dog
-import com.bikcodeh.dogrecognizer.core.remote.DogApiService
-import com.bikcodeh.dogrecognizer.core.remote.dto.DefaultResponse
-import com.bikcodeh.dogrecognizer.core.remote.dto.DogApiResponse
-import com.bikcodeh.dogrecognizer.core.remote.dto.user.AddDogToUserDTO
+import com.bikcodeh.dogrecognizer.core_common.Result
+import com.bikcodeh.dogrecognizer.core_common.fold
+import com.bikcodeh.dogrecognizer.core_common.makeSafeRequest
+import com.bikcodeh.dogrecognizer.core_model.Dog
+import com.bikcodeh.dogrecognizer.core_model.dto.AddDogToUserDTO
+import com.bikcodeh.dogrecognizer.core_model.response.DefaultResponse
+import com.bikcodeh.dogrecognizer.core_network.retrofit.service.DogApiService
 import com.bikcodeh.dogrecognizer.dogsdomain.repository.DogRepository
 import javax.inject.Inject
 
@@ -37,9 +36,5 @@ class DogRepositoryImpl @Inject constructor(
             val addDogToUserDTO = AddDogToUserDTO(dogId)
             dogApiService.addDogToUser(addDogToUserDTO)
         }
-    }
-
-    override suspend fun getRecognizedDog(mlDogId: String): Result<DogApiResponse> {
-        return makeSafeRequest { dogApiService.getDogByMlId(mlDogId) }
     }
 }

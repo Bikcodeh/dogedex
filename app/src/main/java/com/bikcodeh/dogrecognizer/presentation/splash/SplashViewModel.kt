@@ -2,8 +2,8 @@ package com.bikcodeh.dogrecognizer.presentation.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bikcodeh.dogrecognizer.core.domain.repository.DataStoreOperations
-import com.bikcodeh.dogrecognizer.core.model.User
+import com.bikcodeh.dogrecognizer.core_model.User
+import com.bikcodeh.dogrecognizer.core_preferences.domain.repository.DataStoreOperations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

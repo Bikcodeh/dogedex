@@ -1,7 +1,7 @@
 package com.bikcodeh.dogrecognizer.authdomain.repository
 
-import com.bikcodeh.dogrecognizer.core.model.User
-import com.bikcodeh.dogrecognizer.core.common.Result
+import com.bikcodeh.dogrecognizer.core_model.User
+import com.bikcodeh.dogrecognizer.core_common.Result
 
 interface AuthRepository {
     suspend fun signUp(

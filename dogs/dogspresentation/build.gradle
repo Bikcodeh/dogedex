@@ -34,14 +34,24 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes true
+}
+
 dependencies {
     implementation project(path: ':core')
+    implementation project(path: ':core-common')
+    implementation project(path: ':core-model')
     implementation project(path: ':dogs:dogsdomain')
-    implementation project(path: ':dogs:dogsdata')
-
+    implementation project(path: ':core-preferences')
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    /** Coil */
+    implementation "io.coil-kt:coil:2.1.0"
     /** Dagger hilt */
     implementation 'com.google.dagger:hilt-android:2.43'
     kapt 'com.google.dagger:hilt-compiler:2.43'
+    /** Easy permissions */
+    implementation "com.vmadalin:easypermissions-ktx:1.0.0"
 
     /** Testing */
     testImplementation 'junit:junit:4.13.2'

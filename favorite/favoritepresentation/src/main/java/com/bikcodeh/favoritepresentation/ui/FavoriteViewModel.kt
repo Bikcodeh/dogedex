@@ -3,8 +3,8 @@ package com.bikcodeh.favoritepresentation.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.dogrecognizer.core.R
-import com.bikcodeh.dogrecognizer.core.common.fold
-import com.bikcodeh.dogrecognizer.core.model.Dog
+import com.bikcodeh.dogrecognizer.core_common.fold
+import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.favoritedomain.repository.FavoriteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ class FavoriteViewModel @Inject constructor(
                 onSuccess = {
                     _favoriteDogs.send(
                         FavoriteUiState(
-                            dogs = it,
+                            dogs = it.sortedBy { dog -> dog.id },
                             error = null
                         )
                     )

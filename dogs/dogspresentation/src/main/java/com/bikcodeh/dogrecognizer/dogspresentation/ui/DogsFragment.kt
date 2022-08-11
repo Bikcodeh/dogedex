@@ -12,12 +12,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bikcodeh.dogrecognizer.core.model.Dog
-import com.bikcodeh.dogrecognizer.core.util.Constants
 import com.bikcodeh.dogrecognizer.core.util.Permissions.hasCameraPermission
 import com.bikcodeh.dogrecognizer.core.util.Permissions.requestCameraPermission
 import com.bikcodeh.dogrecognizer.core.util.Util
 import com.bikcodeh.dogrecognizer.core.util.extension.*
+import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.dogrecognizer.dogspresentation.R
 import com.bikcodeh.dogrecognizer.dogspresentation.databinding.FragmentDogsBinding
 import com.squareup.moshi.JsonAdapter
@@ -30,6 +29,7 @@ import com.bikcodeh.dogrecognizer.core.R as RC
 
 private const val GRID_SPAN_COUNT = 3
 private const val TOTAL_REQUIRED_PERMISSIONS_COUNT = 3
+private const val PERMISSION_CAMERA_REQUEST_CODE = 2
 
 @AndroidEntryPoint
 class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
@@ -223,7 +223,7 @@ class DogsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        if (requestCode == Constants.PERMISSION_CAMERA_REQUEST_CODE
+        if (requestCode == PERMISSION_CAMERA_REQUEST_CODE
             && perms.count() == TOTAL_REQUIRED_PERMISSIONS_COUNT
         ) {
             val request =

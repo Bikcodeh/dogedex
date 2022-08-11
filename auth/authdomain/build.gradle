@@ -30,7 +30,8 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':core')
+    implementation project(path: ':core-model')
+    implementation project(path: ':core-common')
     /** Testing */
     testImplementation 'junit:junit:4.13.2'
 }

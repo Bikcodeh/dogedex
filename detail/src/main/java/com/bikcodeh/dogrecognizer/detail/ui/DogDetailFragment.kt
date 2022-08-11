@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import coil.load
-import com.bikcodeh.dogrecognizer.core.model.Dog
+import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.dogrecognizer.detail.databinding.FragmentDogDetailBinding
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi

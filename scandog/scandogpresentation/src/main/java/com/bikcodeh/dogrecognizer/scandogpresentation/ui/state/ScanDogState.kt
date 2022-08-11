@@ -1,7 +1,7 @@
 package com.bikcodeh.dogrecognizer.scandogpresentation.ui.state
 
 import androidx.annotation.StringRes
-import com.bikcodeh.dogrecognizer.core.model.Dog
+import com.bikcodeh.dogrecognizer.core_model.Dog
 
 sealed class Effect {
     data class NavigateToDetail(val dog: Dog) : Effect()

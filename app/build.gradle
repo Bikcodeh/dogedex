@@ -43,6 +43,10 @@ dependencies {
     implementation project(path: ':favorite')
     implementation project(path: ':detail')
     implementation project(path: ':scandog')
+    implementation project(path: ':core-model')
+    implementation project(path: ':core-common')
+    implementation project(path: ':core-preferences')
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 
     /** Dagger hilt */
     implementation 'com.google.dagger:hilt-android:2.43'

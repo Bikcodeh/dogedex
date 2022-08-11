@@ -6,14 +6,14 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bikcodeh.dogrecognizer.core.R
 import com.bikcodeh.dogrecognizer.authdomain.repository.AuthRepository
-import com.bikcodeh.dogrecognizer.core.common.Error.*
-import com.bikcodeh.dogrecognizer.core.common.fold
-import com.bikcodeh.dogrecognizer.core.common.toError
-import com.bikcodeh.dogrecognizer.core.domain.repository.DataStoreOperations
-import com.bikcodeh.dogrecognizer.core.model.User
-import com.bikcodeh.dogrecognizer.core.remote.interceptor.ApiServiceInterceptor
+import com.bikcodeh.dogrecognizer.core.R
+import com.bikcodeh.dogrecognizer.core_common.Error
+import com.bikcodeh.dogrecognizer.core_common.fold
+import com.bikcodeh.dogrecognizer.core_common.interceptor.ApiServiceInterceptor
+import com.bikcodeh.dogrecognizer.core_common.toError
+import com.bikcodeh.dogrecognizer.core_model.User
+import com.bikcodeh.dogrecognizer.core_preferences.domain.repository.DataStoreOperations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val dataStoreOperations: DataStoreOperations
+    private val dataStoreOperations: DataStoreOperations,
+    private val apiServiceInterceptor: ApiServiceInterceptor
 ) : ViewModel() {
 
     private val _formUIState: MutableStateFlow<FormState> = MutableStateFlow(FormState())
@@ -127,7 +128,7 @@ class AuthViewModel @Inject constructor(
                 .fold(
                     onSuccess = {
                         dataStoreOperations.saveUser(it.id, it.email, it.authenticationToken)
-                        ApiServiceInterceptor.setToken(it.authenticationToken)
+                        apiServiceInterceptor.setToken(it.authenticationToken)
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
@@ -148,7 +149,7 @@ class AuthViewModel @Inject constructor(
                         }
                     }, onException = {
                         when (it.toError()) {
-                            Connectivity -> {
+                            Error.Connectivity -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -158,7 +159,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Server -> {
+                            is Error.Server -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -168,7 +169,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Unknown -> {
+                            is Error.Unknown -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -198,7 +199,7 @@ class AuthViewModel @Inject constructor(
                 .fold(
                     onSuccess = {
                         dataStoreOperations.saveUser(it.id, it.email, it.authenticationToken)
-                        ApiServiceInterceptor.setToken(it.authenticationToken)
+                        apiServiceInterceptor.setToken(it.authenticationToken)
                         _authUiState.update { state ->
                             state.copy(
                                 isLoading = false,
@@ -219,7 +220,7 @@ class AuthViewModel @Inject constructor(
                         }
                     }, onException = {
                         when (val error = it.toError()) {
-                            Connectivity -> {
+                            Error.Connectivity -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -229,7 +230,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Server -> {
+                            is Error.Server -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,
@@ -239,7 +240,7 @@ class AuthViewModel @Inject constructor(
                                     )
                                 }
                             }
-                            is Unknown -> {
+                            is Error.Unknown -> {
                                 _authUiState.update { state ->
                                     state.copy(
                                         isLoading = false,

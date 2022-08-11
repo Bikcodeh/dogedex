@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bikcodeh.dogrecognizer.core.model.Dog
 import com.bikcodeh.dogrecognizer.core.util.extension.hide
 import com.bikcodeh.dogrecognizer.core.util.extension.observeFlows
 import com.bikcodeh.dogrecognizer.core.util.extension.show
 import com.bikcodeh.dogrecognizer.core.util.extension.snack
+import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.favoritepresentation.databinding.FragmentFavoriteBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -58,7 +58,7 @@ class FavoriteFragment : Fragment() {
                     state.error?.let {
                         handleOnError(it)
                     } ?: run {
-                       binding.viewErrorFavorite.root.hide()
+                        binding.viewErrorFavorite.root.hide()
                     }
                 }
             }
