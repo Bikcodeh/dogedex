@@ -7,10 +7,33 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/auth" />
+            <option value="$PROJECT_DIR$/auth/authdata" />
+            <option value="$PROJECT_DIR$/auth/authdomain" />
+            <option value="$PROJECT_DIR$/auth/authpresentation" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core-common" />
+            <option value="$PROJECT_DIR$/core-model" />
+            <option value="$PROJECT_DIR$/core-network" />
+            <option value="$PROJECT_DIR$/core-preferences" />
+            <option value="$PROJECT_DIR$/detail" />
+            <option value="$PROJECT_DIR$/dogs" />
+            <option value="$PROJECT_DIR$/dogs/dogsdata" />
+            <option value="$PROJECT_DIR$/dogs/dogsdomain" />
+            <option value="$PROJECT_DIR$/dogs/dogspresentation" />
+            <option value="$PROJECT_DIR$/favorite" />
+            <option value="$PROJECT_DIR$/favorite/favoritedata" />
+            <option value="$PROJECT_DIR$/favorite/favoritedomain" />
+            <option value="$PROJECT_DIR$/favorite/favoritepresentation" />
+            <option value="$PROJECT_DIR$/scandog" />
+            <option value="$PROJECT_DIR$/scandog/scandogdata" />
+            <option value="$PROJECT_DIR$/scandog/scandogdomain" />
+            <option value="$PROJECT_DIR$/scandog/scandogpresentation" />
           </set>
         </option>
       </GradleProjectSettings>

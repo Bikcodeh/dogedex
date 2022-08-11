@@ -3,19 +3,19 @@ package com.bikcodeh.dogrecognizer.presentation.splash
 import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bikcodeh.dogrecognizer.MainActivity
-import com.bikcodeh.dogrecognizer.R
-import com.bikcodeh.dogrecognizer.data.remote.interceptor.ApiServiceInterceptor
+import com.bikcodeh.dogrecognizer.core.util.extension.launchSafeActivity
+import com.bikcodeh.dogrecognizer.core_common.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.databinding.ActivitySplashBinding
-import com.bikcodeh.dogrecognizer.presentation.account.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
@@ -24,6 +24,9 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
 
     private val splashViewModel: SplashViewModel by viewModels()
+
+    @Inject
+    lateinit var apiServiceInterceptor: ApiServiceInterceptor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +55,11 @@ class SplashActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 splashViewModel.userLogged.collect { user ->
                     if (user?.authenticationToken?.isNotEmpty() == true) {
-                        ApiServiceInterceptor.setToken(user.authenticationToken)
+                        apiServiceInterceptor.setToken(user.authenticationToken)
                         startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                         finish()
                     } else {
-                        startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                        launchSafeActivity("com.bikcodeh.dogrecognizer.authpresentation.AuthActivity")
                         finish()
                     }
                 }

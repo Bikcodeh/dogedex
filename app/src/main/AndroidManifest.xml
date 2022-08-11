@@ -29,9 +29,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.account.login.LoginActivity"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.DogRecognizer" />
