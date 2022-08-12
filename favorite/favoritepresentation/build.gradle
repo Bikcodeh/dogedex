@@ -43,11 +43,10 @@ dependencies {
     implementation project(path: ':favorite:favoritedomain')
     implementation project(path: ':core-model')
     implementation project(path: ':core-common')
+    implementation project(path: ':core-testing')
     /** Coil */
     implementation "io.coil-kt:coil:2.1.0"
     /** Dagger hilt */
     implementation 'com.google.dagger:hilt-android:2.43'
     kapt 'com.google.dagger:hilt-compiler:2.43'
-
-    testImplementation 'junit:junit:4.13.2'
 }

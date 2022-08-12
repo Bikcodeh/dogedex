@@ -58,6 +58,11 @@ class FavoriteRepositoryImplTest {
 
         assertThat(result).isInstanceOf(Result.Success::class.java)
         assertThat((result as Result.Success).data).isEqualTo(emptyList<Dog>())
+        verifyAll {
+            response.code()
+            response.isSuccessful
+            response.body()
+        }
         coVerify(exactly = 1) { dogApiService.getUserDogs() }
     }
 
@@ -68,20 +73,22 @@ class FavoriteRepositoryImplTest {
             message = "OK",
             isSuccess = true,
             DogListResponse(
-                listOf(DogDTO(
-                    id = 1,
-                    index = 0,
-                    name = "test",
-                    type = "",
-                    heightFemale = "",
-                    heightMale = "",
-                    imageUrl = "",
-                    lifeExpectancy = "",
-                    temperament = "",
-                    weightFemale = "",
-                    weightMale = ""
+                listOf(
+                    DogDTO(
+                        id = 1,
+                        index = 0,
+                        name = "test",
+                        type = "",
+                        heightFemale = "",
+                        heightMale = "",
+                        imageUrl = "",
+                        lifeExpectancy = "",
+                        temperament = "",
+                        weightFemale = "",
+                        weightMale = ""
 
-                ))
+                    )
+                )
             )
         )
         every { response.isSuccessful } returns true
@@ -95,6 +102,47 @@ class FavoriteRepositoryImplTest {
         assertThat(result).isInstanceOf(Result.Success::class.java)
         assertThat((result as Result.Success).data.count()).isEqualTo(1)
         assertThat((result).data.first().name).isEqualTo("test")
+        verifyAll {
+            response.code()
+            response.isSuccessful
+            response.body()
+        }
+        coVerify(exactly = 1) { dogApiService.getUserDogs() }
+    }
+
+    @Test
+    fun `getUserDogs should return a result error`() = runTest {
+        val response: Response<DogListApiResponse> = mockk()
+        every { response.isSuccessful } returns false
+        every { response.code() } returns 400
+        every { response.body() } returns null
+        every { response.message() } returns "error"
+
+        coEvery { dogApiService.getUserDogs() } returns response
+
+        val result = favoriteRepository.getUserDogs()
+
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).code).isEqualTo(400)
+        assertThat((result).message).isEqualTo("error")
+        verifyAll {
+            response.code()
+            response.isSuccessful
+            response.body()
+            response.message()
+        }
+        coVerify(exactly = 1) { dogApiService.getUserDogs() }
+    }
+
+    @Test
+    fun `getUserDogs should return a result exception`() = runTest {
+        val exception = Exception("exception error")
+        coEvery { dogApiService.getUserDogs() } throws exception
+
+        val result = favoriteRepository.getUserDogs()
+
+        assertThat(result).isInstanceOf(Result.Exception::class.java)
+        assertThat((result as Result.Exception).exception.message).isEqualTo("exception error")
         coVerify(exactly = 1) { dogApiService.getUserDogs() }
     }
 }
