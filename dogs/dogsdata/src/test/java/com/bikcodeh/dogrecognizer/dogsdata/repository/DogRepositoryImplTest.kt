@@ -10,12 +10,9 @@ import com.bikcodeh.dogrecognizer.core_network.retrofit.service.DogApiService
 import com.bikcodeh.dogrecognizer.core_testing.util.MainDispatcherRule
 import com.bikcodeh.dogrecognizer.dogsdomain.repository.DogRepository
 import com.google.common.truth.Truth.assertThat
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit4.MockKRule
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -98,6 +95,40 @@ class DogRepositoryImplTest {
         assertThat(result).isInstanceOf(Result.Success::class.java)
         assertThat((result as Result.Success).data.isEmpty()).isTrue()
         assertThat((result).data.count()).isEqualTo(0)
+        coVerify(exactly = 1) { dogApiService.getAllDogs() }
+    }
+
+    @Test
+    fun `downloadDogs should return an error result`() = runTest {
+        val response: Response<DogListApiResponse> = mockk()
+        every { response.isSuccessful } returns false
+        every { response.code() } returns 404
+        every { response.body() } returns null
+        every { response.message() } returns "error"
+        coEvery { dogApiService.getAllDogs() } returns response
+
+        val result = dogRepository.downloadDogs()
+
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).code).isEqualTo(404)
+        assertThat((result).message).isEqualTo("error")
+        verifyAll {
+            response.code()
+            response.isSuccessful
+            response.body()
+            response.message()
+        }
+        coVerify(exactly = 1) { dogApiService.getAllDogs() }
+    }
+
+    @Test
+    fun `downloadDogs should return an exception result`() = runTest {
+        coEvery { dogApiService.getAllDogs() } throws Exception("testError")
+
+        val result = dogRepository.downloadDogs()
+
+        assertThat(result).isInstanceOf(Result.Exception::class.java)
+        assertThat((result as Result.Exception).exception.message).isEqualTo("testError")
         coVerify(exactly = 1) { dogApiService.getAllDogs() }
     }
 
