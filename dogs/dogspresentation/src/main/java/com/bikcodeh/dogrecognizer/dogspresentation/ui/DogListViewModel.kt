@@ -3,12 +3,14 @@ package com.bikcodeh.dogrecognizer.dogspresentation.ui
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bikcodeh.dogrecognizer.core_common.di.IoDispatcher
 import com.bikcodeh.dogrecognizer.core_common.fold
 import com.bikcodeh.dogrecognizer.core_common.interceptor.ApiServiceInterceptor
 import com.bikcodeh.dogrecognizer.core_model.Dog
 import com.bikcodeh.dogrecognizer.core_preferences.domain.repository.DataStoreOperations
 import com.bikcodeh.dogrecognizer.dogsdomain.repository.DogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -20,7 +22,8 @@ import com.bikcodeh.dogrecognizer.core.R as RC
 class DogListViewModel @Inject constructor(
     private val dogRepository: DogRepository,
     private val dataStoreOperations: DataStoreOperations,
-    private val apiServiceInterceptor: ApiServiceInterceptor
+    private val apiServiceInterceptor: ApiServiceInterceptor,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _dogsUiState: MutableStateFlow<DogsUiState> = MutableStateFlow(DogsUiState())
@@ -36,7 +39,7 @@ class DogListViewModel @Inject constructor(
 
     fun downloadDogs() {
         setEffect(Effect.IsLoadingDogs(true))
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             dogRepository.downloadDogs()
                 .fold(
                     onSuccess = {
@@ -65,14 +68,14 @@ class DogListViewModel @Inject constructor(
 
     fun logOut() {
         apiServiceInterceptor.clearToken()
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             dataStoreOperations.deleteUser()
         }
     }
 
     fun addDogToUser(dogId: String) {
         setEffect(Effect.ShowLoading)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             dogRepository.addDogToUser(dogId)
                 .fold(
                     onSuccess = {
@@ -94,7 +97,7 @@ class DogListViewModel @Inject constructor(
     }
 
     private fun setEffect(uiEffect: Effect) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             _effect.send(uiEffect)
         }
     }
