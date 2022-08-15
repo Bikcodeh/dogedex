@@ -1,7 +1,9 @@
 package com.bikcodeh.dogrecognizer.dogsdata.repository
 
 import com.bikcodeh.dogrecognizer.core_common.Result
+import com.bikcodeh.dogrecognizer.core_model.dto.AddDogToUserDTO
 import com.bikcodeh.dogrecognizer.core_model.dto.DogDTO
+import com.bikcodeh.dogrecognizer.core_model.response.DefaultResponse
 import com.bikcodeh.dogrecognizer.core_model.response.DogListApiResponse
 import com.bikcodeh.dogrecognizer.core_model.response.DogListResponse
 import com.bikcodeh.dogrecognizer.core_network.retrofit.service.DogApiService
@@ -100,6 +102,21 @@ class DogRepositoryImplTest {
     }
 
     @Test
-    fun addDogToUser() {
+    fun addDogToUser() = runTest {
+        val addDogToUserDTO = AddDogToUserDTO(dogId = "1")
+        val response: Response<DefaultResponse> = mockk()
+        every { response.isSuccessful } returns true
+        every { response.code() } returns 200
+        every { response.body() } returns DefaultResponse(
+            message = "OK",
+            isSuccess = true
+        )
+        coEvery {
+            dogApiService.addDogToUser(addDogToUserDTO)
+        } returns response
+
+        dogRepository.addDogToUser("1")
+
+        coVerify { dogApiService.addDogToUser(addDogToUserDTO) }
     }
 }
