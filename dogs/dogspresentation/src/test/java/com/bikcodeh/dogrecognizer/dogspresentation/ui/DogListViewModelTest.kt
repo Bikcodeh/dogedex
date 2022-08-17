@@ -14,6 +14,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -51,7 +52,7 @@ class DogListViewModelTest {
             dogRepository,
             dataStoreOperations,
             apiServiceInterceptor,
-            Dispatchers.IO
+            UnconfinedTestDispatcher()
         )
         val jobEffect = launch(UnconfinedTestDispatcher()) {
             dogsViewModel.effect.toList(resultEffect)
@@ -70,10 +71,20 @@ class DogListViewModelTest {
 
     @Test
     fun getEffect() {
+        coEvery { dogRepository.downloadDogs() } returns Result.Success(emptyList())
+        dogsViewModel = DogListViewModel(
+            dogRepository,
+            dataStoreOperations,
+            apiServiceInterceptor,
+            UnconfinedTestDispatcher()
+        )
+        assertThat(dogsViewModel.effect).isInstanceOf(Flow::class.java)
+        coVerify { dogRepository.downloadDogs() }
     }
 
     @Test
     fun downloadDogs() {
+
     }
 
     @Test
