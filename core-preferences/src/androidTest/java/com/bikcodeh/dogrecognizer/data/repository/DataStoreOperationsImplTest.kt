@@ -1,6 +1,5 @@
 package com.bikcodeh.dogrecognizer.data.repository
 
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.SmallTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
@@ -23,14 +22,13 @@ class DataStoreOperationsImplTest {
     @get:Rule
     val coroutineRule = MainDispatcherRule()
 
-    private lateinit var context: Context
-
     private lateinit var dataStoreOperations: DataStoreOperations
 
     @Before
     fun setUp() {
-        context = ApplicationProvider.getApplicationContext()
-        dataStoreOperations = DataStoreOperationsImpl(context)
+        dataStoreOperations = DataStoreOperationsImpl(
+            ApplicationProvider.getApplicationContext()
+        )
     }
 
     @Test
