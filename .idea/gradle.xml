@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/core-model" />
             <option value="$PROJECT_DIR$/core-network" />
             <option value="$PROJECT_DIR$/core-preferences" />
+            <option value="$PROJECT_DIR$/core-testing" />
             <option value="$PROJECT_DIR$/detail" />
             <option value="$PROJECT_DIR$/dogs" />
             <option value="$PROJECT_DIR$/dogs/dogsdata" />
