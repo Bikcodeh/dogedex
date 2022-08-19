@@ -37,7 +37,7 @@
 - Coil images
 
 ## Screenshots Light theme
- | Home |     Detail    |  Favorite  |   Sign in    |  Sign in |   Splash |
+ | Home |     Detail    |  Favorite  |   Log in    |  Sign in |   Splash |
  | :----: | :---------: | :-------: | :-----------: | :-------:| :-------:|
  |![Home](assets/home.png?raw=true)|![Detail](assets/detail.png?raw=true)|![Favorite](assets/favorite.png?raw=true)|![Login](assets/login.png?raw=true)|![Sign in](assets/register.png?raw=true)|![Splash](assets/splash.png?raw=true)|
 
