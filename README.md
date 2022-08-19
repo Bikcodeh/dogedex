@@ -37,8 +37,8 @@
 - Coil images
 
 ## Screenshots Light theme
- | Home |     Detail    |  Favorite  |   Sign in    |  Sign in   |   Splash |
- | :----: | :---------: | :-------: | :-----------: |
+ | Home |     Detail    |  Favorite  |   Sign in    |  Sign in |   Splash |
+ | :----: | :---------: | :-------: | :-----------: | :-------:| :-------:|
  |![Home](assets/home.png?raw=true)|![Detail](assets/detail.png?raw=true)|![Favorite](assets/favorite.png?raw=true)|![Login](assets/login.png?raw=true)|![Sign in](assets/register.png?raw=true)|![Splash](assets/splash.png?raw=true)|
 
 ## :dart: Architecture
@@ -55,4 +55,3 @@ https://user-images.githubusercontent.com/24237865/77502018-f7d36000-6e9c-11ea-9
 
 
 **Bikcodeh**
-
