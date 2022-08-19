@@ -2,6 +2,8 @@
 
 # Dog Recognizer
 
+### This application was developed by modules feature.
+
 ## :star: Features
 
 - [x] Display dogs previously save in the api
